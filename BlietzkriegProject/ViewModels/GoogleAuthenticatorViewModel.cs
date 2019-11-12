@@ -17,31 +17,31 @@ namespace BlietzkriegProject.ViewModels
             get => _authenticatorCode;
             set
             {
-                _authenticatorCode = value;
+                _authenticatorCode = value.Replace(" ", "Space") ;
                 OnPropertyChanged();
+                _signInCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private RelayCommand<object> _signInCommand;
-        private RelayCommand<object> _backCommand;
+        private RelayCommand _signInCommand;
+        private RelayCommand _backCommand;
 
         #region Commands
 
-        public RelayCommand<object> SignInCommand
+        public RelayCommand SignInCommand
         {
             get
             {
-                return _signInCommand ?? (_signInCommand = new RelayCommand<object>(
-                           SignInInplementation, o => CanExecuteCommand()));
+                return _signInCommand = new RelayCommand(SignInImplementation, () => CanExecuteCommand()); ;
             }
         }
 
-        public RelayCommand<object> BackCommand
+        public RelayCommand BackCommand
         {
             get
             {
-                return _backCommand ?? (_backCommand = new RelayCommand<object>(
-                           o =>
+                return _backCommand ?? (_backCommand = new RelayCommand(
+                           () =>
                            {
                                NavigationManager.Instance.Navigate(ViewType.Login);
 
@@ -53,19 +53,21 @@ namespace BlietzkriegProject.ViewModels
 
         private bool CanExecuteCommand()
         {
-            return AuthenticatorCode.All(char.IsDigit) && AuthenticatorCode.Length == 6;
+             if (string.IsNullOrWhiteSpace(AuthenticatorCode)) return false;
+             return AuthenticatorCode.All(char.IsDigit) && AuthenticatorCode.Length == 6;
         }
 
-        private async void SignInInplementation(object obj)
+        private async void SignInImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
             await Task.Run(() =>
             {
-                Task.Delay(2000).Wait();
+                Task.Delay(1000).Wait();
                 //TODO Send Get request to DB 
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog($"Authenticator code successful for user //TODO name of gotten user");
+            var dialog = new MessageDialog("Authenticator code successful for user //TODO name of gotten user", "Success");
+            dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Main);
         }

@@ -3,62 +3,76 @@ using System.Windows.Input;
 
 namespace BlietzkriegProject.Tools
 {
-    public class RelayCommand<T> : ICommand
+    /// <summary>
+    /// A command whose sole purpose is to relay its functionality
+    /// to other objects by invoking delegates.
+    /// The default return value for the CanExecute method is 'true'.
+    /// RaiseCanExecuteChanged needs to be called whenever
+    /// CanExecute is expected to return a different value.
+    /// </summary>
+    public class RelayCommand : ICommand
     {
-        #region Fields
-        readonly Action<T> _execute;
-        readonly Predicate<T> _canExecute;
-        #endregion
-
-        #region Constructors
+        private readonly Action _execute;
+        private readonly Func<bool> _canExecute;
         /// <summary>
-        /// Initializes a new instance/>.
+        /// Raised when RaiseCanExecuteChanged is called.
         /// </summary>
-        /// <param name="execute">Delegate to execute when Execute is called on the command.  This can be null to just hook up a CanExecute delegate.</param>
-        /// <remarks><seealso cref="CanExecute"/> will always return true.</remarks>
-        public RelayCommand(Action<T> execute)
+        public event EventHandler CanExecuteChanged;
+        /// <summary>
+        /// Creates a new command that can always execute.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        public RelayCommand(Action execute)
             : this(execute, null)
         {
         }
-
         /// <summary>
         /// Creates a new command.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+        public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+            _execute = execute;
             _canExecute = canExecute;
         }
-
-        public event EventHandler CanExecuteChanged;
-
-        #endregion
-
-        #region ICommand Members
-
-        ///<summary>
-        ///Defines the method that determines whether the command can execute in its current state.
-        ///</summary>
-        ///<param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
-        ///<returns>
-        ///true if this command can be executed; otherwise, false.
-        ///</returns>
+        /// <summary>
+        /// Determines whether this RelayCommand can execute in its current state.
+        /// </summary>
+        /// <param name="parameter">
+        /// Data used by the command. If the command does not require data to be passed,
+        /// this object can be set to null.
+        /// </param>
+        /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke((T)parameter) ?? true;
+            return _canExecute == null ? true : _canExecute();
         }
-
-        ///<summary>
-        ///Defines the method to be called when the command is invoked.
-        ///</summary>
-        ///<param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
+        /// <summary>
+        /// Executes the RelayCommand on the current command target.
+        /// </summary>
+        /// <param name="parameter">
+        /// Data used by the command. If the command does not require data to be passed,
+        /// this object can be set to null.
+        /// </param>
         public void Execute(object parameter)
         {
-            _execute((T)parameter);
+            _execute();
         }
-
-        #endregion
+        /// <summary>
+        /// Method used to raise the CanExecuteChanged event
+        /// to indicate that the return value of the CanExecute
+        /// method has changed.
+        /// </summary>
+        public void RaiseCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
     }
 }
