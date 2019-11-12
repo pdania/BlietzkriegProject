@@ -23,16 +23,14 @@ namespace BlietzkriegProject.Views
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class LoginView : Page, INavigatable
-    { 
-
-        public LoginView()
+    public sealed partial class GoogleAuthenticatorView : Page,INavigatable
+    {
+        public GoogleAuthenticatorView()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(500,320);
+            ApplicationView.PreferredLaunchViewSize = new Size(350, 220);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            DataContext = new LoginWindowViewModel();
+            DataContext = new GoogleAuthenticatorViewModel();
         }
-    
     }
 }

@@ -3,7 +3,8 @@
     internal enum ViewType
     {
         Login,
-        Main
+        Main,
+        Google
     }
 
     interface INavigationModel
