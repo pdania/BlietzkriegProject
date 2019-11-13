@@ -13,30 +13,24 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using BlietzkriegProject.Tools.Managers;
 using BlietzkriegProject.Tools.Navigation;
 using BlietzkriegProject.ViewModels;
 
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
+// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace BlietzkriegProject
+namespace BlietzkriegProject.Views
 {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class MainPage : Page, IContentOwner
+    public sealed partial class GoogleAuthenticatorView : Page,INavigatable
     {
-        public MainPage()
+        public GoogleAuthenticatorView()
         {
-            InitializeComponent();
-            DataContext = new MainWindowViewModel();
-            NavigationManager.Instance.Initialize(new InitializationNavigationModel(this));
-            NavigationManager.Instance.Navigate(ViewType.Login);
-        }
-
-        public ContentControl ContentControl
-        {
-            get { return _contentControl; }
+            this.InitializeComponent();
+            ApplicationView.PreferredLaunchViewSize = new Size(350, 220);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            DataContext = new GoogleAuthenticatorViewModel();
         }
     }
 }

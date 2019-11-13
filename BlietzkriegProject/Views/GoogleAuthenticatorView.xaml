@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="BlietzkriegProject.Views.GoogleAuthenticatorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BlietzkriegProject.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Height="220" Width="390">
+
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Input google authenticator code" Style="{StaticResource TitleTextBlockStyle}"/>
+            <PasswordBox Header="Code" Margin="0,24,0,0" MaxLength="6" Width="200" HorizontalAlignment="Left" Password = "{Binding AuthenticatorCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Stretch">
+                <Button Content="Back" Margin="0,24" Command="{Binding BackCommand}"/>
+                <Button Content="Enter" Margin="24" Command="{Binding SignInCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

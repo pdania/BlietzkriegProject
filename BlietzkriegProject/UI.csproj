@@ -134,9 +134,17 @@
     <Compile Include="Tools\Navigation\InitializationNavigationModel.cs" />
     <Compile Include="Tools\PasswordBoxAssistant.cs" />
     <Compile Include="Tools\RelayCommand.cs" />
+    <Compile Include="ViewModels\GoogleAuthenticatorViewModel.cs" />
+    <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\GoogleAuthenticatorView.xaml.cs">
+      <DependentUpon>GoogleAuthenticatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PutMoney.xaml.cs">
+      <DependentUpon>PutMoney.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +172,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GoogleAuthenticatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PutMoney.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
