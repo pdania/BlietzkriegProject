@@ -28,8 +28,6 @@ namespace BlietzkriegProject.Views
         public GoogleAuthenticatorView()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(350, 220);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             DataContext = new GoogleAuthenticatorViewModel();
         }
     }

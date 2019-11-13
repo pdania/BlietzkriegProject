@@ -69,7 +69,7 @@ namespace BlietzkriegProject.ViewModels
             var dialog = new MessageDialog("Authenticator code successful for user //TODO name of gotten user", "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Main);
+            NavigationManager.Instance.Navigate(ViewType.Put);
         }
     }
 }

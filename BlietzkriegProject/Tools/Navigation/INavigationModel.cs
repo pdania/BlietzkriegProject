@@ -4,7 +4,8 @@
     {
         Login,
         Main,
-        Google
+        Google,
+        Put
     }
 
     interface INavigationModel

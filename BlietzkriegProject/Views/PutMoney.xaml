@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Put money" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
-            <ComboBox x:Name="accountList" Header="" PlaceholderText="Account type" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,0" Width="413" RenderTransformOrigin="0.502,1.044" SelectionChanged="AccountList_SelectionChanged" Height="46">
+            <ComboBox x:Name="accountList" Header="" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,0" Width="413"  Height="46">
                 <x:String>Credit account</x:String>
                 <x:String>Saving account</x:String>
                 <x:String>Checking account</x:String>

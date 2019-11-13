@@ -2,6 +2,7 @@
 //using MainView = KMA.ProgrammingInCSharp2019.Practice5.Navigation.Views.MainView;
 using LoginView = BlietzkriegProject.Views.LoginView;
 using GoogleAuthenticator = BlietzkriegProject.Views.GoogleAuthenticatorView;
+using PutMoney = BlietzkriegProject.Views.PutMoney;
 namespace BlietzkriegProject.Tools.Navigation
 {
     internal class InitializationNavigationModel : BaseNavigationModel
@@ -21,9 +22,12 @@ namespace BlietzkriegProject.Tools.Navigation
                 case ViewType.Google:
                     ViewsDictionary.Add(viewType, new GoogleAuthenticator());
                     break;
-//                case ViewType.Main:
-//                    ViewsDictionary.Add(viewType, new MainView());
-//                    break;
+                case ViewType.Put:
+                    ViewsDictionary.Add(viewType, new PutMoney());
+                    break;
+                //                case ViewType.Main:
+                //                    ViewsDictionary.Add(viewType, new MainView());
+                //                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }

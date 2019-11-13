@@ -29,8 +29,6 @@ namespace BlietzkriegProject.Views
         public LoginView()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(500,320);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             DataContext = new LoginWindowViewModel();
         }
     

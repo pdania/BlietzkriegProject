@@ -18,11 +18,12 @@ namespace BlietzkriegProject.ViewModels
         private string _password;
         private string _information;
 
+        #endregion
+
         #region Commands
         private RelayCommand _googleCommand;
         private RelayCommand _closeCommand;
 
-        #endregion
         #endregion
 
         #region Properties
