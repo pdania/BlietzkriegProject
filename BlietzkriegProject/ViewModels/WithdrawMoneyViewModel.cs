@@ -3,17 +3,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
 using BlietzkriegProject.Tools;
 using BlietzkriegProject.Tools.Managers;
 using BlietzkriegProject.Tools.Navigation;
 
 namespace BlietzkriegProject.ViewModels
 {
-    internal class PutMoneyViewModel:BaseViewModel
+    internal class WithdrawMoneyViewModel : BaseViewModel
     {
         #region Fields
-       private readonly string[] accounts = {
+        private readonly string[] accounts = {
             "Credit account",
             "Saving account",
             "Checking account"
@@ -25,39 +24,39 @@ namespace BlietzkriegProject.ViewModels
         #endregion
 
         #region Commands
-        private RelayCommand _putCommand;
+        private RelayCommand _withdrawCommand;
         private RelayCommand _cancelCommand;
 
         #endregion
-        public string PutSum
+        public string WithdrawSum
         {
             get { return _sum; }
             set
             {
                 _sum = value;
-                _putCommand.RaiseCanExecuteChanged();
+                _withdrawCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
-       
+
         public string AccountSelected
         {
             get { return this._selectedItems; }
             set
             {
                 this._selectedItems = value;
-                _putCommand.RaiseCanExecuteChanged();
+                _withdrawCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
 
             }
         }
-        
-        
+
+
 
         #region Commands
-        public RelayCommand PutCommand
+        public RelayCommand WithdrawCommand
         {
-            get { return _putCommand ?? (_putCommand = new RelayCommand(PutMoneyImplementation, () => CanExecuteCommand())); }
+            get { return _withdrawCommand ?? (_withdrawCommand = new RelayCommand(WithdrawMoneyImplementation, () => CanExecuteCommand())); }
         }
 
         public RelayCommand CancelCommand
@@ -69,33 +68,33 @@ namespace BlietzkriegProject.ViewModels
 
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(PutSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(WithdrawSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
             return CanExecuteCardNumber();
         }
         private bool CanExecuteCardNumber()
         {
-            return PutSum.All(char.IsDigit);
+            return WithdrawSum.All(char.IsDigit);
         }
 
         private int AccountType()
         {
 
             return Array.IndexOf(accounts, AccountSelected);
-            
+
         }
-        private async void PutMoneyImplementation()
+        private async void WithdrawMoneyImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
             await Task.Run(() =>
             {
                 Task.Delay(1000).Wait();
-                //TODO Put money on account
+                //TODO Withdraw money on account
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum put on account="+AccountType(), "Success");
+            var dialog = new MessageDialog("Operation is successful //TODO sum withdraw from account=" + AccountType(), "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Put);
+            NavigationManager.Instance.Navigate(ViewType.Withdraw);
         }
 
     }

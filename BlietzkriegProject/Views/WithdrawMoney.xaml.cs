@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,9 +22,9 @@ namespace BlietzkriegProject.Views
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class PutMoney : Page, INavigatable
+    public sealed partial class WithdrawMoney : Page, INavigatable
     {
-        public PutMoney()
+        public WithdrawMoney()
         {
             this.InitializeComponent();
             string[] accounts = {
@@ -34,10 +33,8 @@ namespace BlietzkriegProject.Views
                 "Checking account"
             };
 
-            // Specify the ComboBox item source
             AccountList.ItemsSource = accounts;
-            DataContext = new PutMoneyViewModel();
+            DataContext = new WithdrawMoneyViewModel();
         }
-       
     }
 }
