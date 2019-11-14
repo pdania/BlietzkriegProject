@@ -28,6 +28,14 @@ namespace BlietzkriegProject.Views
         public PutMoney()
         {
             this.InitializeComponent();
+            string[] accounts = {
+                "Credit account",
+                "Saving account",
+                "Checking account"
+            };
+
+            // Specify the ComboBox item source
+            AccountList.ItemsSource = accounts;
             DataContext = new PutMoneyViewModel();
         }
        
