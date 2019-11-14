@@ -22,18 +22,11 @@ namespace BlietzkriegProject.Views
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class WithdrawMoney : Page, INavigatable
+    public sealed partial class WithdrawMoneyView : Page, INavigatable
     {
-        public WithdrawMoney()
+        public WithdrawMoneyView()
         {
             this.InitializeComponent();
-            string[] accounts = {
-                "Credit account",
-                "Saving account",
-                "Checking account"
-            };
-
-            AccountList.ItemsSource = accounts;
             DataContext = new WithdrawMoneyViewModel();
         }
     }

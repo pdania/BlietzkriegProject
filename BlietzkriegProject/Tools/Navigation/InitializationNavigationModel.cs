@@ -1,9 +1,5 @@
 ﻿using System;
 using BlietzkriegProject.Views;
-//using MainView = KMA.ProgrammingInCSharp2019.Practice5.Navigation.Views.MainView;
-using LoginView = BlietzkriegProject.Views.LoginView;
-using GoogleAuthenticator = BlietzkriegProject.Views.GoogleAuthenticatorView;
-using PutMoney = BlietzkriegProject.Views.PutMoney;
 namespace BlietzkriegProject.Tools.Navigation
 {
     internal class InitializationNavigationModel : BaseNavigationModel
@@ -21,10 +17,10 @@ namespace BlietzkriegProject.Tools.Navigation
                     ViewsDictionary.Add(viewType,new LoginView());
                     break;
                 case ViewType.Google:
-                    ViewsDictionary.Add(viewType, new GoogleAuthenticator());
+                    ViewsDictionary.Add(viewType, new GoogleAuthenticatorView());
                     break;
                 case ViewType.Put:
-                    ViewsDictionary.Add(viewType, new PutMoney());
+                    ViewsDictionary.Add(viewType, new PutMoneyView());
                     break;
                 case ViewType.Withdraw:
                     ViewsDictionary.Add(viewType, new WithdrawMoney());

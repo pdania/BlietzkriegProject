@@ -23,19 +23,11 @@ namespace BlietzkriegProject.Views
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class PutMoney : Page, INavigatable
+    public sealed partial class PutMoneyView : Page, INavigatable
     {
-        public PutMoney()
+        public PutMoneyView()
         {
             this.InitializeComponent();
-            string[] accounts = {
-                "Credit account",
-                "Saving account",
-                "Checking account"
-            };
-
-            // Specify the ComboBox item source
-            AccountList.ItemsSource = accounts;
             DataContext = new PutMoneyViewModel();
         }
        

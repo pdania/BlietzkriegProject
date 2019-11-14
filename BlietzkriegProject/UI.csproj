@@ -145,11 +145,11 @@
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PutMoney.xaml.cs">
-      <DependentUpon>PutMoney.xaml</DependentUpon>
+    <Compile Include="Views\PutMoneyView.xaml.cs">
+      <DependentUpon>PutMoneyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WithdrawMoney.xaml.cs">
-      <DependentUpon>WithdrawMoney.xaml</DependentUpon>
+    <Compile Include="Views\WithdrawMoneyView.xaml.cs">
+      <DependentUpon>WithdrawMoneyView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -185,11 +185,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PutMoney.xaml">
+    <Page Include="Views\PutMoneyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WithdrawMoney.xaml">
+    <Page Include="Views\WithdrawMoneyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
