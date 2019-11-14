@@ -23,7 +23,7 @@ namespace BlietzkriegProject.Tools.Navigation
                     ViewsDictionary.Add(viewType, new PutMoneyView());
                     break;
                 case ViewType.Withdraw:
-                    ViewsDictionary.Add(viewType, new WithdrawMoney());
+                    ViewsDictionary.Add(viewType, new WithdrawMoneyView());
                     break;
                 //                case ViewType.Main:
                 //                    ViewsDictionary.Add(viewType, new MainView());

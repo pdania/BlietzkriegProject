@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
+using BlietzkriegProject.Models;
 using BlietzkriegProject.Tools;
 using BlietzkriegProject.Tools.Managers;
 using BlietzkriegProject.Tools.Navigation;
@@ -12,14 +14,10 @@ namespace BlietzkriegProject.ViewModels
     internal class WithdrawMoneyViewModel : BaseViewModel
     {
         #region Fields
-        private readonly string[] accounts = {
-            "Credit account",
-            "Saving account",
-            "Checking account"
-        };
         private string _sum;
         private string _selectedItems;
         private string _information;
+        private List<string> _accountType;
 
         #endregion
 
@@ -37,6 +35,12 @@ namespace BlietzkriegProject.ViewModels
                 _withdrawCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
             }
+        }
+
+        public List<string> AccountType
+        {
+            get => _accountType;
+            set => _accountType = value;
         }
 
         public string AccountSelected
@@ -66,6 +70,10 @@ namespace BlietzkriegProject.ViewModels
 
         #endregion
 
+        public WithdrawMoneyViewModel()
+        {
+            AccountType = AccountNames.Accounts;
+        }
         private bool CanExecuteCommand()
         {
             if (string.IsNullOrWhiteSpace(WithdrawSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
@@ -74,13 +82,6 @@ namespace BlietzkriegProject.ViewModels
         private bool CanExecuteCardNumber()
         {
             return WithdrawSum.All(char.IsDigit);
-        }
-
-        private int AccountType()
-        {
-
-            return Array.IndexOf(accounts, AccountSelected);
-
         }
         private async void WithdrawMoneyImplementation()
         {
@@ -91,7 +92,7 @@ namespace BlietzkriegProject.ViewModels
                 //TODO Withdraw money on account
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum withdraw from account=" + AccountType(), "Success");
+            var dialog = new MessageDialog("Operation is successful //TODO sum withdraw from account=" + AccountSelected, "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Withdraw);
