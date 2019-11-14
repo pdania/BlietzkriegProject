@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using BlietzkriegProject.Models;
 using BlietzkriegProject.Tools;
 using BlietzkriegProject.Tools.Managers;
 using BlietzkriegProject.Tools.Navigation;
 
 namespace BlietzkriegProject.ViewModels
 {
-    internal class PutMoneyViewModel:BaseViewModel
+    internal class PutMoneyViewModel:BaseViewModel,Account
     {
         #region Fields
        private readonly string[] accounts = {
@@ -97,6 +99,5 @@ namespace BlietzkriegProject.ViewModels
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Put);
         }
-
     }
 }
