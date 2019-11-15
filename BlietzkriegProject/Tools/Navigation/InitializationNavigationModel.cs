@@ -25,6 +25,9 @@ namespace BlietzkriegProject.Tools.Navigation
                 case ViewType.Withdraw:
                     ViewsDictionary.Add(viewType, new WithdrawMoneyView());
                     break;
+                case ViewType.MainInfo:
+                    ViewsDictionary.Add(viewType, new MainInfoView());
+                    break;
                 //                case ViewType.Main:
                 //                    ViewsDictionary.Add(viewType, new MainView());
                 //                    break;
