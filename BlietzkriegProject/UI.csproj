@@ -140,6 +140,9 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\PutMoneyViewModel.cs" />
     <Compile Include="ViewModels\WithdrawMoneyViewModel.cs" />
+    <Compile Include="Views\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GoogleAuthenticatorView.xaml.cs">
       <DependentUpon>GoogleAuthenticatorView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GoogleAuthenticatorView.xaml">
       <SubType>Designer</SubType>
