@@ -6,7 +6,8 @@
         Main,
         Google,
         Put,
-        Withdraw
+        Withdraw,
+        MainInfo
     }
 
     interface INavigationModel

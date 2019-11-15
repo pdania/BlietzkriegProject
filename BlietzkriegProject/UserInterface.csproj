@@ -137,6 +137,7 @@
     <Compile Include="Tools\RelayCommand.cs" />
     <Compile Include="ViewModels\GoogleAuthenticatorViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainInfoViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\PutMoneyViewModel.cs" />
     <Compile Include="ViewModels\WithdrawMoneyViewModel.cs" />
@@ -148,6 +149,9 @@
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainInfoView.xaml.cs">
+      <DependentUpon>MainInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PutMoneyView.xaml.cs">
       <DependentUpon>PutMoneyView.xaml</DependentUpon>
@@ -193,6 +197,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PutMoneyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -211,6 +219,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="MyToolkit.Extended">
+      <Version>2.5.16</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace BlietzkriegProject.Tools
 {
-    internal abstract class BaseViewModel:INotifyPropertyChanged
+    public abstract class BaseViewModel:INotifyPropertyChanged
     {
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
