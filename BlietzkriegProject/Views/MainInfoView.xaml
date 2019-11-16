@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:MyToolkit.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="520" Width="800" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
     <!-- Height="520" Width="800" -->
 
     <Grid>
@@ -16,36 +16,74 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <RelativePanel>
-            <Button x:Name="HamburgerButton" RelativePanel.AlignLeftWithPanel="True"
+            <Button RelativePanel.AlignLeftWithPanel="True"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding NaviCommand}" />
-            <TextBlock Name="TitleTextBlock" RelativePanel.RightOf="HamburgerButton"
-                       FontSize="28" FontWeight="Bold" Margin="30 5 0 0" />
+            <!-- <TextBlock Name="TitleTextBlock" RelativePanel.RightOf="HamburgerButton" -->
+            <!--            FontSize="28" FontWeight="Bold" Margin="30 5 0 0" /> -->
+            
         </RelativePanel>
 
-        <SplitView Name="mySplitView" IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
+        <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
                     DisplayMode="Inline" >
             <SplitView.Pane>
-                <ListBox Name="menu" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                    
                 </ListBox>
             </SplitView.Pane>
-            <SplitView.Content>
-                <controls:DataGrid>
-                    <controls:DataGrid.Columns>
-                        <controls:DataGridTextColumn Header="From"></controls:DataGridTextColumn>
-                        <controls:DataGridTextColumn Header="Amount"></controls:DataGridTextColumn>
-                        <controls:DataGridTextColumn Header="Date"></controls:DataGridTextColumn>
-                    </controls:DataGrid.Columns>
-                    <controls:DataGrid.ItemDetailsTemplate>
+            <SplitView.Content >
+                <Grid ScrollViewer.HorizontalScrollMode="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollMode="Enabled" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="From" Grid.Column="0" />
+                <TextBlock Text=" To" Grid.Column="1" />
+                <TextBlock Text="Amount" Grid.Column="2" />
+                <TextBlock Text="Time" Grid.Column="3"/>
+
+            </Grid>
+                    <Grid>
+                <GridView  IsItemClickEnabled="True"
+                          SelectionMode="None" ItemsSource="{Binding Transactions}" >
+                    <!-- <GridView.ItemsPanel> -->
+                    <!--     <ItemsPanelTemplate> -->
+                    <!--         <WrapGrid Orientation="Vertical"/> -->
+                    <!--     </ItemsPanelTemplate> -->
+                    <!-- </GridView.ItemsPanel> -->
+                    <GridView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel >
-                                <TextBlock Text="Details: " FontWeight="Bold" />
-                                <TextBlock Text="{Binding Firstname}" />
-                                <TextBlock Text="{Binding Lastname}" />
-                            </StackPanel>
+                            <Grid >
+                               
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding From}" Grid.Column="0" />
+                                <TextBlock Text="{Binding To}" Grid.Column="1" />
+                                <TextBlock Text="{Binding Amount}" Grid.Column="2" />
+                                <TextBlock Text="{Binding Time}" Grid.Column="3"/>
+                                
+                            </Grid>
                         </DataTemplate>
-                    </controls:DataGrid.ItemDetailsTemplate>
-                </controls:DataGrid>
+                    </GridView.ItemTemplate>
+                    <!-- <GridView.Items> -->
+                    <!--     <TextBlock></TextBlock> -->
+                    <!-- </GridView.Items> -->
+                </GridView>
+                    </Grid>
+                </Grid>
             </SplitView.Content>
         </SplitView>
     </Grid>

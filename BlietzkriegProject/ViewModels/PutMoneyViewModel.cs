@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http;
 using BlietzkriegProject.Models;
 using BlietzkriegProject.Tools;
 using BlietzkriegProject.Tools.Managers;
@@ -91,6 +94,7 @@ namespace BlietzkriegProject.ViewModels
             {
                 Task.Delay(1000).Wait();
                 //TODO Put money on account
+
             });
             LoaderManeger.Instance.HideLoader();
             var dialog = new MessageDialog("Operation is successful //TODO sum put on account="+AccountSelected, "Success");
@@ -99,5 +103,35 @@ namespace BlietzkriegProject.ViewModels
             NavigationManager.Instance.Navigate(ViewType.Put);
         }
 
+        private async Task TryPostJsonAsync()
+        {
+            try
+            {
+                // Construct the HttpClient and Uri. This endpoint is for test purposes only.
+                HttpClient httpClient = new HttpClient();
+                Uri uri = new Uri("https://www.contoso.com/post");
+
+                // Construct the JSON to post.
+                HttpStringContent content = new HttpStringContent(
+                    "{ \"firstName\": \"Eliot\" }",
+                    UnicodeEncoding.Utf8,
+                    "application/json");
+
+                // Post the JSON and wait for a response.
+                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(
+                    uri,
+                    content);
+
+                // Make sure the post succeeded, and write out the response.
+                httpResponseMessage.EnsureSuccessStatusCode();
+                var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+                Debug.WriteLine(httpResponseBody);
+            }
+            catch (Exception ex)
+            {
+                // Write out any exceptions.
+                Debug.WriteLine(ex);
+            }
+        }
     }
 }
