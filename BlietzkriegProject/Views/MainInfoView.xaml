@@ -18,7 +18,7 @@
         <RelativePanel>
             <Button RelativePanel.AlignLeftWithPanel="True"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding NaviCommand}" />
-
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding User}" RelativePanel.AlignHorizontalCenterWithPanel="True"></TextBlock>
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"

@@ -19,8 +19,9 @@ namespace BlietzkriegProject.ViewModels
     {
         #region Fields
         private List<string> _accountType;
-        private string _item;
+        private string userName;
         private string _selectedItem;
+
 
         #endregion
 
