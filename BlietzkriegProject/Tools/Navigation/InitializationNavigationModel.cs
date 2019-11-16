@@ -28,9 +28,9 @@ namespace BlietzkriegProject.Tools.Navigation
                 case ViewType.MainInfo:
                     ViewsDictionary.Add(viewType, new MainInfoView());
                     break;
-                //                case ViewType.Main:
-                //                    ViewsDictionary.Add(viewType, new MainView());
-                //                    break;
+                case ViewType.Dashboard:
+                    ViewsDictionary.Add(viewType, new DashboardView());
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }

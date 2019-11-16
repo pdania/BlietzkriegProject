@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:MyToolkit.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="520" Width="800" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="5520" Width="800" >
     <!-- Height="520" Width="800" -->
 
     <Grid>
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <RelativePanel>
             <Button x:Name="HamburgerButton" RelativePanel.AlignLeftWithPanel="True"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding NaviCommand}" />
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding CancelCommand}" />
             <TextBlock Name="TitleTextBlock" RelativePanel.RightOf="HamburgerButton"
                        FontSize="28" FontWeight="Bold" Margin="30 5 0 0" />
         </RelativePanel>

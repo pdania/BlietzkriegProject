@@ -65,7 +65,7 @@ namespace BlietzkriegProject.ViewModels
 
         public RelayCommand CancelCommand
         {
-            get { return _cancelCommand = new RelayCommand(() => CoreApplication.Exit()); }
+            get { return _cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard)); }
         }
 
         #endregion
