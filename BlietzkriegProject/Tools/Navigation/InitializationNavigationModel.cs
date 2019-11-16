@@ -1,4 +1,5 @@
 ﻿using System;
+using BlietzkriegProject.Templates;
 using BlietzkriegProject.Views;
 namespace BlietzkriegProject.Tools.Navigation
 {
@@ -30,6 +31,9 @@ namespace BlietzkriegProject.Tools.Navigation
                     break;
                 case ViewType.Dashboard:
                     ViewsDictionary.Add(viewType, new DashboardView());
+                    break;
+                case ViewType.Transactions:
+                    ViewsDictionary.Add(viewType, new TransactionsView());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);

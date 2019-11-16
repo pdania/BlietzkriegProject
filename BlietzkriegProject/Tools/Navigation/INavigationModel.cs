@@ -7,7 +7,8 @@
         Put,
         Withdraw,
         MainInfo,
-        Dashboard
+        Dashboard,
+        Transactions
     }
 
     interface INavigationModel

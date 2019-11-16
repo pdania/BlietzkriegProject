@@ -34,7 +34,7 @@ namespace BlietzkriegProject
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500,320));
             NavigationManager.Instance.Initialize(new InitializationNavigationModel(this));
-            NavigationManager.Instance.Navigate(ViewType.Login);
+            NavigationManager.Instance.Navigate(ViewType.Transactions);
         }
 
         public ContentControl ContentControl
