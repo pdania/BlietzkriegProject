@@ -30,7 +30,22 @@
                 </ListBox>
             </SplitView.Pane>
             <SplitView.Content>
-                <TextBlock></TextBlock>
+                <controls:DataGrid>
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="From"></controls:DataGridTextColumn>
+                        <controls:DataGridTextColumn Header="Amount"></controls:DataGridTextColumn>
+                        <controls:DataGridTextColumn Header="Date"></controls:DataGridTextColumn>
+                    </controls:DataGrid.Columns>
+                    <controls:DataGrid.ItemDetailsTemplate>
+                        <DataTemplate>
+                            <StackPanel >
+                                <TextBlock Text="Details: " FontWeight="Bold" />
+                                <TextBlock Text="{Binding Firstname}" />
+                                <TextBlock Text="{Binding Lastname}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </controls:DataGrid.ItemDetailsTemplate>
+                </controls:DataGrid>
             </SplitView.Content>
         </SplitView>
     </Grid>
