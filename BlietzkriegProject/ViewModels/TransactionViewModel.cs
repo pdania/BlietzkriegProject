@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-using BlietzkriegProject.Models;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
-using BlietzkriegProject.Tools.Navigation;
+using UI.Models;
+using UI.Tools;
+using UI.Tools.Managers;
+using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
     public class TransactionViewModel : BaseViewModel
     {
