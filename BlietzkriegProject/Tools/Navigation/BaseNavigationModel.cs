@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlietzkriegProject.Tools.Navigation
+namespace UI.Tools.Navigation
 {
     internal abstract class BaseNavigationModel : INavigationModel
     {

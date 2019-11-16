@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Client_ServerConnector.Templates;
 using UI.Templates;
 
-namespace Client_ServerConnector.Client
+namespace UI.Client
 {
     public class RestClient
     {
@@ -19,21 +16,22 @@ namespace Client_ServerConnector.Client
             httpClient.BaseAddress = new Uri("https://moopblizkrieg.azurewebsites.net/");
         }
 
-        static async Task<User> AuthPost(string cardNumber, int pin)
+        internal static async Task<User> AuthPost(Card card)
         {
             User user = null;
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
-                "api/auth", "{ \"UserCardNumber\": \""+cardNumber+ "\" }, \"CardPIN\": \""+pin+ "\" }");
+                "api/auth", card);
 
             // return URI of the created resource.
             if (response.IsSuccessStatusCode)
             {
                 user = await response.Content.ReadAsAsync<User>();
+                return user;
             }
             return user;
         }
 
-        static async Task<ObservableCollection<Transaction>> GetTransfers()
+        internal static async Task<ObservableCollection<Transaction>> GetTransfers()
         {
             ObservableCollection<Transaction> transfers = null;
             HttpResponseMessage response = await httpClient.GetAsync("api/history");

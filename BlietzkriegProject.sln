@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "BlietzkriegProject\UI.csproj", "{640F990E-4950-4E9F-9338-AD530F3A1542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client-ServerConnector", "Client-ServerConnector\Client-ServerConnector.csproj", "{858CF876-0C8C-443C-99E3-1CFBC9258CEF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -43,30 +41,6 @@ Global
 		{640F990E-4950-4E9F-9338-AD530F3A1542}.Release|x86.ActiveCfg = Release|x86
 		{640F990E-4950-4E9F-9338-AD530F3A1542}.Release|x86.Build.0 = Release|x86
 		{640F990E-4950-4E9F-9338-AD530F3A1542}.Release|x86.Deploy.0 = Release|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM.ActiveCfg = Debug|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM.Build.0 = Debug|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM.Deploy.0 = Debug|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM64.Build.0 = Debug|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|ARM64.Deploy.0 = Debug|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x64.ActiveCfg = Debug|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x64.Build.0 = Debug|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x64.Deploy.0 = Debug|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x86.ActiveCfg = Debug|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x86.Build.0 = Debug|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Debug|x86.Deploy.0 = Debug|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM.ActiveCfg = Release|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM.Build.0 = Release|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM.Deploy.0 = Release|ARM
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM64.ActiveCfg = Release|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM64.Build.0 = Release|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|ARM64.Deploy.0 = Release|ARM64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x64.ActiveCfg = Release|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x64.Build.0 = Release|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x64.Deploy.0 = Release|x64
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x86.ActiveCfg = Release|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x86.Build.0 = Release|x86
-		{858CF876-0C8C-443C-99E3-1CFBC9258CEF}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

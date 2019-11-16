@@ -119,12 +119,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Client\RestClient.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\Account.cs" />
+    <Compile Include="Templates\Card.cs" />
+    <Compile Include="Templates\ScheduleInput.cs" />
+    <Compile Include="Templates\ScheduleTransferDto.cs" />
+    <Compile Include="Templates\StationManager.cs" />
     <Compile Include="Templates\Transaction.cs" />
+    <Compile Include="Templates\TransferInput.cs" />
+    <Compile Include="Templates\User.cs" />
     <Compile Include="Tools\BaseViewModel.cs" />
     <Compile Include="Tools\ILoaderOwner.cs" />
     <Compile Include="Tools\Managers\LoaderMeneger.cs" />

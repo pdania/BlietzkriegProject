@@ -1,19 +1,20 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
-using System.ServiceModel.Security;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
-using BlietzkriegProject.Tools.Navigation;
+using UI.Client;
+using UI.Templates;
+using UI.Tools;
+using UI.Tools.Managers;
+using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
-    public class LoginWindowViewModel:BaseViewModel
+    public class LoginWindowViewModel : BaseViewModel
     {
         #region Fields
+
         private string _cardNumber;
         private string _password;
         private string _information;
@@ -21,12 +22,14 @@ namespace BlietzkriegProject.ViewModels
         #endregion
 
         #region Commands
+
         private RelayCommand _googleCommand;
         private RelayCommand _closeCommand;
 
         #endregion
 
         #region Properties
+
         public string CardNumber
         {
             get { return _cardNumber; }
@@ -37,11 +40,13 @@ namespace BlietzkriegProject.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public string Information
         {
             get { return _information; }
             set => _information = value;
         }
+
         public string Password
         {
             get { return _password; }
@@ -53,10 +58,17 @@ namespace BlietzkriegProject.ViewModels
             }
         }
 
+        public int Tries { get; set; }
+
         #region Commands
+
         public RelayCommand GoogleCommand
         {
-            get { return _googleCommand ?? (_googleCommand =  new RelayCommand(SignInImplementation, () => CanExecuteCommand())); }
+            get
+            {
+                return _googleCommand ??
+                       (_googleCommand = new RelayCommand(SignInImplementation, () => CanExecuteCommand()));
+            }
         }
 
         public RelayCommand CloseCommand
@@ -65,11 +77,14 @@ namespace BlietzkriegProject.ViewModels
         }
 
         #endregion
+
         #endregion
+
         private bool CanExecuteCommand()
         {
             if (string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Password)) return false;
-            return CanExecuteCardNumber() && CanExecutePin(); ;
+            return CanExecuteCardNumber() && CanExecutePin();
+            ;
         }
 
         private bool CanExecuteCardNumber()
@@ -85,20 +100,35 @@ namespace BlietzkriegProject.ViewModels
         public LoginWindowViewModel()
         {
             Information = "Input card number and PIN";
+            Tries = 3;
         }
 
         private async void SignInImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
-            {
-                //var user = RestClient.AuthPost(CardNumber, Password);
-            });
+            bool flag = true;
+            var user = await RestClient.AuthPost(new Card(CardNumber, Password));
+            if (user != null)
+                StationManager.CurrentUser = user;
+            else
+                flag = false;
+
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("CardNumber successful for user //TODO name of gotten user", "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Google);
+            if (flag)
+            {
+                var dialog = new MessageDialog("CardNumber successful for user " + StationManager.CurrentUser.Login,
+                    "Success");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                NavigationManager.Instance.Navigate(ViewType.Google);
+            }
+            else
+            {
+                var errorDialog = new MessageDialog("Login failed", "Failure");
+                errorDialog.Commands.Add(new UICommand("Ok", null));
+                await errorDialog.ShowAsync();
+                NavigationManager.Instance.Navigate(ViewType.Login);
+            }
         }
     }
 }

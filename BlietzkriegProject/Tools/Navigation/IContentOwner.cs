@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace BlietzkriegProject.Tools.Navigation
+namespace UI.Tools.Navigation
 {
     internal interface IContentOwner
     {

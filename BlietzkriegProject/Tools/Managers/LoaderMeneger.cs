@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 
-namespace BlietzkriegProject.Tools.Managers
+namespace UI.Tools.Managers
 {
     internal class LoaderManeger
     {

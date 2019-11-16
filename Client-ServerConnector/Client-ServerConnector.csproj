@@ -170,6 +170,12 @@
       <HintPath>..\BlietzkriegProject\bin\ARM\Debug\BlietzkriegProject.exe</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlietzkriegProject\UI.csproj">
+      <Project>{640F990E-4950-4E9F-9338-AD530F3A1542}</Project>
+      <Name>UI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

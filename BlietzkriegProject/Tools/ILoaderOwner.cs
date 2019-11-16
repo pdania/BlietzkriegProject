@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
-using System.Windows;
 using Windows.UI.Xaml;
 
-namespace BlietzkriegProject.Tools
+namespace UI.Tools
 {
     internal interface ILoaderOwner : INotifyPropertyChanged
     {

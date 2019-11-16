@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
+﻿using Windows.UI.Xaml;
+using UI.Tools;
+using UI.Tools.Managers;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
     internal class MainWindowViewModel : BaseViewModel, ILoaderOwner
     {

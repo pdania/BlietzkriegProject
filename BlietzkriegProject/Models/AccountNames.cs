@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlietzkriegProject.Models
+namespace UI.Models
 {
     public class AccountNames
     {

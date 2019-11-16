@@ -1,6 +1,6 @@
-﻿using BlietzkriegProject.Tools.Navigation;
+﻿using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.Tools.Managers
+namespace UI.Tools.Managers
 {
     internal class NavigationManager
     {

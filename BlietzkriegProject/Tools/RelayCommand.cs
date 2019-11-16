@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace BlietzkriegProject.Tools
+namespace UI.Tools
 {
     /// <summary>
     /// A command whose sole purpose is to relay its functionality

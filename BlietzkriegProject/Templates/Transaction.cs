@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlietzkriegProject.Templates
+namespace UI.Templates
 {
     public class Transaction
     {

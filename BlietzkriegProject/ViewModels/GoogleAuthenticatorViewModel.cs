@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
-using BlietzkriegProject.Tools.Navigation;
+using UI.Tools;
+using UI.Tools.Managers;
+using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
     internal class GoogleAuthenticatorViewModel:BaseViewModel
     {

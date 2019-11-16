@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BlietzkriegProject.Tools
+namespace UI.Tools
 {
     public abstract class BaseViewModel:INotifyPropertyChanged
     {

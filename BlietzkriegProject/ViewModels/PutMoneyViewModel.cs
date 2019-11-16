@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
-using BlietzkriegProject.Models;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
-using BlietzkriegProject.Tools.Navigation;
+using UI.Models;
+using UI.Tools;
+using UI.Tools.Managers;
+using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
     internal class PutMoneyViewModel:BaseViewModel
     {

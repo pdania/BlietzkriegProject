@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using BlietzkriegProject.Models;
-using BlietzkriegProject.Templates;
-using BlietzkriegProject.Tools;
-using BlietzkriegProject.Tools.Managers;
-using BlietzkriegProject.Tools.Navigation;
+using UI.Models;
+using UI.Templates;
+using UI.Tools;
+using UI.Tools.Managers;
+using UI.Tools.Navigation;
 
-namespace BlietzkriegProject.ViewModels
+namespace UI.ViewModels
 {
     internal class MainInfoViewModel : BaseViewModel
     {

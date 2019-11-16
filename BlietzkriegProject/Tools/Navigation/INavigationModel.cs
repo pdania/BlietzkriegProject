@@ -1,4 +1,4 @@
-﻿namespace BlietzkriegProject.Tools.Navigation
+﻿namespace UI.Tools.Navigation
 {
     internal enum ViewType
     {

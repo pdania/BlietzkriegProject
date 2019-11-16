@@ -1,7 +1,7 @@
 ﻿using System;
-using BlietzkriegProject.Templates;
-using BlietzkriegProject.Views;
-namespace BlietzkriegProject.Tools.Navigation
+using UI.Views;
+
+namespace UI.Tools.Navigation
 {
     internal class InitializationNavigationModel : BaseNavigationModel
     {
