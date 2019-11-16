@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "BlietzkriegProject\UserInterface.csproj", "{640F990E-4950-4E9F-9338-AD530F3A1542}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "BlietzkriegProject\UI.csproj", "{640F990E-4950-4E9F-9338-AD530F3A1542}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client-ServerConnector", "Client-ServerConnector\Client-ServerConnector.csproj", "{858CF876-0C8C-443C-99E3-1CFBC9258CEF}"
 EndProject
