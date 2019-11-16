@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <RelativePanel>
             <Button RelativePanel.AlignLeftWithPanel="True"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding NaviCommand}" />
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding CancelCommand}" />
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding User}" RelativePanel.AlignHorizontalCenterWithPanel="True"></TextBlock>
         </RelativePanel>
 
