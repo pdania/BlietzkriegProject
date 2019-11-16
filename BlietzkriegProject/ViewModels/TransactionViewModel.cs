@@ -10,20 +10,21 @@ using Windows.UI.Xaml.Data;
 using BlietzkriegProject.Models;
 using BlietzkriegProject.Tools;
 using BlietzkriegProject.Tools.Managers;
+using BlietzkriegProject.Tools.Navigation;
 
 namespace BlietzkriegProject.ViewModels
 {
     public class TransactionViewModel : BaseViewModel
     {
-        private bool _window = true;
-        private List<string> _transction;
+//        private bool _window = true;
+//        private List<string> _transction;
         private List<string> transactionList;
 
 
         private RelayCommand _backCommand;
-
-        private Visibility vis = Visibility.Visible;
-        private Visibility inVis = Visibility.Collapsed;
+//
+//        private Visibility vis = Visibility.Visible;
+//        private Visibility inVis = Visibility.Collapsed;
 
         private Visibility _scheduled;
         private Visibility _make;
@@ -32,8 +33,9 @@ namespace BlietzkriegProject.ViewModels
         private string _selectedItem;
         private List<string> _accountType;
         private string _selectedItems;
-        private RelayCommand _putCommand;
+        private RelayCommand _makeTranCommand;
         private string _sum;
+        private string _cardNumber;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -73,7 +75,7 @@ namespace BlietzkriegProject.ViewModels
                 OnPropertyChanged();
             }
         }
-        #endregion
+      
 
         public List<string> TransactionList
         {
@@ -94,6 +96,7 @@ namespace BlietzkriegProject.ViewModels
 
             }
         }
+        #endregion
 
         public List<string> AccountType
         {
@@ -107,30 +110,69 @@ namespace BlietzkriegProject.ViewModels
             set
             {
                 this._selectedItems = value;
-                _putCommand.RaiseCanExecuteChanged();
+                _makeTranCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
 
             }
         }
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(PutSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
-            return CanExecutePutSum();
+            if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            return CanExecuteMakeSum();
         }
 
-        public string PutSum
+        public string AmountM
         {
             get { return _sum; }
             set
             {
                 _sum = value;
-                _putCommand.RaiseCanExecuteChanged();
+                _makeTranCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
-        private bool CanExecutePutSum()
+        public string CardNumberM
         {
-            return PutSum.All(char.IsDigit);
+            get { return _cardNumber; }
+            set
+            {
+                _cardNumber = value;
+                _makeTranCommand.RaiseCanExecuteChanged();
+                OnPropertyChanged();
+            }
+        }
+        private bool CanExecuteMakeSum()
+        {
+            return CanExecuteCardNumber()&&AmountM.All(char.IsDigit);
+        }
+        private bool CanExecuteCardNumber()
+        {
+            return CardNumberM.All(char.IsDigit) && CardNumberM.Length == 16;
+        }
+
+        public RelayCommand MakeTranCommand
+        {
+            get
+            {
+                return _makeTranCommand ??
+                       (_makeTranCommand = new RelayCommand(MakeTransactionImplementation, () => CanExecuteCommand()));
+            }
+        }
+
+        private async void MakeTransactionImplementation()
+        {
+            LoaderManeger.Instance.ShowLoader();
+            await Task.Run(() =>
+            {
+                Task.Delay(1000).Wait();
+                //TODO  Make transaction
+
+            });
+            LoaderManeger.Instance.HideLoader();
+            var dialog = new MessageDialog("Operation is successful //TODO Make transaction", "Success");
+            dialog.Commands.Add(new UICommand("Ok", null));
+            await dialog.ShowAsync();
+            NavigationManager.Instance.Navigate(ViewType.Transactions);
         }
 
         public TransactionViewModel()
