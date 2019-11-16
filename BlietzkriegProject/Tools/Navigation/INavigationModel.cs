@@ -3,11 +3,11 @@
     internal enum ViewType
     {
         Login,
-        Main,
         Google,
         Put,
         Withdraw,
-        MainInfo
+        MainInfo,
+        Dashboard
     }
 
     interface INavigationModel
