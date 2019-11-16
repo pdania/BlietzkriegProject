@@ -11,7 +11,7 @@ using BlietzkriegProject.Tools.Navigation;
 
 namespace BlietzkriegProject.ViewModels
 {
-    internal class LoginWindowViewModel:BaseViewModel
+    public class LoginWindowViewModel:BaseViewModel
     {
         #region Fields
         private string _cardNumber;
@@ -92,8 +92,7 @@ namespace BlietzkriegProject.ViewModels
             LoaderManeger.Instance.ShowLoader();
             await Task.Run(() =>
             {
-                Task.Delay(1000).Wait();
-                //TODO Connection to Google Authentificator
+                //var user = RestClient.AuthPost(CardNumber, Password);
             });
             LoaderManeger.Instance.HideLoader();
             var dialog = new MessageDialog("CardNumber successful for user //TODO name of gotten user", "Success");

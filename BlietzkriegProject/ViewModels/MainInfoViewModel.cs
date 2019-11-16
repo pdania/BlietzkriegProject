@@ -55,9 +55,6 @@ namespace BlietzkriegProject.ViewModels
                 _selectedItem = value;
                 OnPropertyChanged();
                 AccountChangeImplementation();
-                
-
-
             }
         }
         public List<string> AccountType
@@ -71,19 +68,20 @@ namespace BlietzkriegProject.ViewModels
             set => _transactions = value;
         }
         public MainInfoViewModel()
+
         {
             AccountType = AccountNames.Accounts;
             Transactions = new ObservableCollection<Transaction>();
-            Transactions.Add(item: new Transaction("From","To",2,DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now, Guid.NewGuid()));
+            Transactions.Add(item: new Transaction("From","To",2,DateTime.Now));
+            Transactions.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
         }
         private async void AccountChangeImplementation()
         {
