@@ -38,7 +38,7 @@ namespace UI.ViewModels
         private string _sum;
         private string _cardNumber;
         private ObservableCollection<Transaction> _transactionsHistory;
-        private ObservableCollection<Transaction> _scheduledTran;
+        private ObservableCollection<ScheduleTranferDto> _scheduledTran;
         private Transaction _selectedTran;
 
         //        public RelayCommand CancelCommand
@@ -193,7 +193,7 @@ namespace UI.ViewModels
             set => _transactionsHistory = value;
         }
 
-        public ObservableCollection<Transaction> ScheduledTran
+        public ObservableCollection<ScheduleTranferDto> ScheduledTran
         {
             get => _scheduledTran;
             set => _scheduledTran = value;
@@ -208,17 +208,17 @@ namespace UI.ViewModels
                 if (value == _selectedTran) return;
                 _selectedTran = value;
                 OnPropertyChanged();
-                EditTranImplementation(_selectedTran);
+                EditTranImplementation();
 
             }
         }
 
-        private void EditTranImplementation(Transaction transaction)
+        private void EditTranImplementation()
         {
 
             //TODo open new window
 
-
+            NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction);
 
         }
         
@@ -236,7 +236,7 @@ namespace UI.ViewModels
             AccountType = AccountNames.Accounts;
 
             TransactionsHistory = new ObservableCollection<Transaction>();
-            ScheduledTran = new ObservableCollection<Transaction>();
+            ScheduledTran = new ObservableCollection<ScheduleTranferDto>();
             TransactionsHistory.Add(item: new Transaction("From", "To", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));

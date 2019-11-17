@@ -22,8 +22,7 @@ namespace UI.ViewModels
 
         private RelayCommand _addEditCommand;
         private string _addEdit;
-        private bool _add;
-        private Transaction _transaction;
+       
 
         public List<string> AccountType
         {
@@ -113,12 +112,7 @@ namespace UI.ViewModels
             _addEdit="Add";
             AccountType = AccountNames.Accounts;
         }
-        public ScheduledTransactionViewModel(bool add, Transaction transaction)
-        {
-            _add = add;
-            _transaction = transaction;
-            AccountType = AccountNames.Accounts;
-        }
+        
 
         private async void AddEditTransactionImplementation()
         {
