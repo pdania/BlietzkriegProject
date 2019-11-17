@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UI.Templates;
+using Newtonsoft.Json;
+using HttpClient = System.Net.Http.HttpClient;
+using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
 
 namespace UI.Client
 {
@@ -43,5 +47,28 @@ namespace UI.Client
             return transfers;
         }
 
+        internal static async Task<ObservableCollection<Account>> GetAccounts()
+        {
+            ObservableCollection<Account> accounts = null;
+            HttpResponseMessage response = await httpClient.GetAsync("api/balance");
+
+            if (response.IsSuccessStatusCode)
+            {
+                accounts = await response.Content.ReadAsAsync<ObservableCollection<Account>>();
+            }
+
+            return accounts;
+        }
+
+        internal static async Task<HttpStatusCode> PutMoney(Money put)
+        {
+            var json = JsonConvert.SerializeObject(put);
+            StringContent sc = new StringContent(JsonConvert.SerializeObject(put));
+            sc.Headers.Remove("Content-Type"); // "{text/plain; charset=utf-8}"
+            sc.Headers.Add("token", StationManager.CurrentUser.Token);
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
+                "api /put", sc);
+            return response.StatusCode;
+        }
     }
 }
