@@ -11,7 +11,7 @@
     <AssemblyName>UI</AssemblyName>
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -151,6 +151,7 @@
     <Compile Include="ViewModels\MainInfoViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\PutMoneyViewModel.cs" />
+    <Compile Include="ViewModels\ScheduledTransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\WithdrawMoneyViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
@@ -167,6 +168,9 @@
     </Compile>
     <Compile Include="Views\PutMoneyView.xaml.cs">
       <DependentUpon>PutMoneyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScheduledTransactionView.xaml.cs">
+      <DependentUpon>ScheduledTransactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransactionsView.xaml.cs">
       <DependentUpon>TransactionsView.xaml</DependentUpon>
@@ -217,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PutMoneyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScheduledTransactionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

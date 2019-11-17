@@ -35,6 +35,9 @@ namespace UI.Tools.Navigation
                 case ViewType.Transactions:
                     ViewsDictionary.Add(viewType, new TransactionsView());
                     break;
+                case ViewType.ScheduledTransaction:
+                    ViewsDictionary.Add(viewType, new ScheduledTransactionView());
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }

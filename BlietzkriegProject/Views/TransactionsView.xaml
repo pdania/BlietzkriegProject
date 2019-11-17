@@ -18,6 +18,7 @@
             <Button RelativePanel.AlignLeftWithPanel="True"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding CancelCommand}" />
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding User}" RelativePanel.AlignHorizontalCenterWithPanel="True"></TextBlock>
+            <Button Content="Add transaction" Visibility="{Binding ScheduledTranVisibility}" RelativePanel.AlignRightWithPanel="True"></Button>
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="180"
@@ -52,8 +53,58 @@
                     <Grid Visibility="{Binding ScheduledTranVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
 
 
-                        <TextBlock Text="ScheduledTran" HorizontalAlignment="Stretch"/>
-                        
+                        <!-- <TextBlock Text="ScheduledTran" HorizontalAlignment="Stretch"/> -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row ="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="From" Grid.Column="0" />
+                            <TextBlock Text="To" Grid.Column="1" />
+                            <TextBlock Text="Amount" Grid.Column="2" />
+                            <TextBlock Text="Period" Grid.Column="3" HorizontalAlignment="Center"/>
+
+                        </Grid>
+
+                        <GridView Grid.Row ="1" ItemsSource="{Binding ScheduledTran}" ScrollViewer.HorizontalScrollMode="Enabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapGrid Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid >
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding From}" Grid.Column="0" />
+                                        <TextBlock Text="{Binding To}" Grid.Column="1" />
+                                        <TextBlock Text="{Binding Amount}" Grid.Column="2" />
+                                        <TextBlock Text="{Binding Period}" Grid.Column="3"/>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                            <!-- <GridView.Items> -->
+                            <!--     <TextBlock></TextBlock> -->
+                            <!-- </GridView.Items> -->
+                        </GridView>
+
 
 
                     </Grid>
@@ -79,14 +130,14 @@
 
                         </Grid>
 
-                        <GridView Grid.Row ="1" ItemsSource="{Binding Transactions}" ScrollViewer.HorizontalScrollMode="Enabled"
+                        <GridView Grid.Row ="1" ItemsSource="{Binding TransactionsHistory}" ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                             ScrollViewer.VerticalScrollMode="Enabled">
-                            <!-- <GridView.ItemsPanel> -->
-                            <!--     <ItemsPanelTemplate> -->
-                            <!--         <WrapGrid Orientation="Vertical"/> -->
-                            <!--     </ItemsPanelTemplate> -->
-                            <!-- </GridView.ItemsPanel> -->
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapGrid Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid >

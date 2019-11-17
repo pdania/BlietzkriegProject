@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using UI.Models;
+using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
 using UI.Tools.Navigation;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -33,6 +37,9 @@ namespace UI.ViewModels
         private RelayCommand _makeTranCommand;
         private string _sum;
         private string _cardNumber;
+        private ObservableCollection<Transaction> _transactionsHistory;
+        private ObservableCollection<Transaction> _scheduledTran;
+        private Transaction _selectedTran;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -44,8 +51,9 @@ namespace UI.ViewModels
         public Visibility ScheduledTranVisibility
         {
             get => _scheduled;
-            set {
-               
+            set
+            {
+
                 _scheduled = value;
                 OnPropertyChanged();
             }
@@ -55,8 +63,9 @@ namespace UI.ViewModels
         public Visibility MakeTranVisibility
         {
             get => _make;
-            set {
-               
+            set
+            {
+
                 _make = value;
                 OnPropertyChanged();
             }
@@ -67,18 +76,19 @@ namespace UI.ViewModels
             get => _history;
             set
             {
-               
+
                 _history = value;
                 OnPropertyChanged();
             }
         }
-      
+
 
         public List<string> TransactionList
         {
             get => transactionList;
             set => transactionList = value;
         }
+
         public string SelectedItem
         {
             get { return _selectedItem; }
@@ -86,13 +96,14 @@ namespace UI.ViewModels
             {
                 if (value == _selectedItem) return;
                 _selectedItem = value;
-                
+
                 ChangeWindow(transactionList.IndexOf(_selectedItem));
                 OnPropertyChanged();
 
 
             }
         }
+
         #endregion
 
         public List<string> AccountType
@@ -112,6 +123,7 @@ namespace UI.ViewModels
 
             }
         }
+
         private bool CanExecuteCommand()
         {
             if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
@@ -128,6 +140,7 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public string CardNumberM
         {
             get { return _cardNumber; }
@@ -138,10 +151,12 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
         private bool CanExecuteMakeSum()
         {
-            return CanExecuteCardNumber()&&AmountM.All(char.IsDigit);
+            return CanExecuteCardNumber() && AmountM.All(char.IsDigit);
         }
+
         private bool CanExecuteCardNumber()
         {
             return CardNumberM.All(char.IsDigit) && CardNumberM.Length == 16;
@@ -172,6 +187,43 @@ namespace UI.ViewModels
             NavigationManager.Instance.Navigate(ViewType.Transactions);
         }
 
+        public ObservableCollection<Transaction> TransactionsHistory
+        {
+            get => _transactionsHistory;
+            set => _transactionsHistory = value;
+        }
+
+        public ObservableCollection<Transaction> ScheduledTran
+        {
+            get => _scheduledTran;
+            set => _scheduledTran = value;
+        }
+
+        public Transaction SelectedTransaction
+        {
+            get { return this._selectedTran; }
+            set
+            {
+                this._selectedTran = value;
+                if (value == _selectedTran) return;
+                _selectedTran = value;
+                OnPropertyChanged();
+                EditTranImplementation(_selectedTran);
+
+            }
+        }
+
+        private void EditTranImplementation(Transaction transaction)
+        {
+
+            //TODo open new window
+
+
+
+        }
+        
+
+
         public TransactionViewModel()
         {
             MakeTranVisibility = Visibility.Visible;
@@ -182,6 +234,14 @@ namespace UI.ViewModels
             transactionList.Add("Scheduled Transaction");
             transactionList.Add("Transaction history");
             AccountType = AccountNames.Accounts;
+
+            TransactionsHistory = new ObservableCollection<Transaction>();
+            ScheduledTran = new ObservableCollection<Transaction>();
+            TransactionsHistory.Add(item: new Transaction("From", "To", 2, DateTime.Now));
+            TransactionsHistory.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
+            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
         }
 
         private void ChangeWindow(int n)
