@@ -11,11 +11,11 @@ using UI.Tools.Navigation;
 
 namespace UI.ViewModels
 {
-    public class ScheduledTransactionViewModel:BaseViewModel
+    public class EditScheduledTranViewModel:BaseViewModel
     {
         private List<string> _accountType;
         private string _selectedItems;
-        
+
         private string _sum;
         private string _cardNumber;
         private string _period;
@@ -42,7 +42,7 @@ namespace UI.ViewModels
             }
         }
 
-       
+
 
         private bool CanExecuteCommand()
         {
@@ -51,7 +51,7 @@ namespace UI.ViewModels
         }
         private bool CanExecuteMakeSum()
         {
-//            return true;
+            //            return true;
             return CanExecuteCardNumber() && Amount.All(char.IsDigit) && Period.All(char.IsDigit);
         }
         private bool CanExecuteCardNumber()
@@ -79,7 +79,7 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
-       
+
         public string CardNumber
         {
             get { return _cardNumber; }
@@ -90,14 +90,14 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
-        
 
-        public RelayCommand AddEditCommand
+
+        public RelayCommand EditCommand
         {
             get
             {
                 return _addEditCommand ??
-                       (_addEditCommand = new RelayCommand(AddEditTransactionImplementation, () => CanExecuteCommand()));
+                       (_addEditCommand = new RelayCommand(EditTransactionImplementation, () => CanExecuteCommand()));
             }
         }
         public RelayCommand CancelCommand
@@ -105,23 +105,28 @@ namespace UI.ViewModels
             get { return _cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Transactions)); }
         }
 
-        public ScheduledTransactionViewModel()
+        public EditScheduledTranViewModel()
         {
+            ScheduleTranferDto tranferDto = StationManager.CurrentScheduledTransfer;
+            _cardNumber = tranferDto.CardNumberTo;
+            _sum = tranferDto.Amount.ToString();
+            _period = tranferDto.Period.ToString();
+//            _selectedItems = StationManager.AccountType(tranferDto.CardNumberFrom);
             AccountType = AccountNames.Accounts;
         }
-        
 
-        private async void AddEditTransactionImplementation()
+
+        private async void EditTransactionImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
             await Task.Run(() =>
             {
                 Task.Delay(1000).Wait();
-                //TODO  add scheduled transaction
+                //TODO  edit scheduled transaction
 
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO add  transaction", "Success");
+            var dialog = new MessageDialog("Operation is successful //TODO edit transaction", "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Transactions);

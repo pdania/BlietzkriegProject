@@ -21,5 +21,6 @@ namespace UI.Templates
             TransactionDate = transactionDate;
             Period = period;
         }
+
     }
 }
