@@ -22,7 +22,7 @@ namespace UI
             ApplicationView.PreferredLaunchViewSize = new Size(500, 320);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             NavigationManager.Instance.Initialize(new InitializationNavigationModel(this));
-            NavigationManager.Instance.Navigate(ViewType.Transactions);
+            NavigationManager.Instance.Navigate(ViewType.MainInfo);
         }
 
         public ContentControl ContentControl

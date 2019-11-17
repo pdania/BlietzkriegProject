@@ -37,12 +37,14 @@
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding SelectedItem}" Grid.Column="0" />
-                        <TextBlock Text="{Binding Balance}" Grid.Column="1" />
-                        <TextBlock Text="{Binding Percent}" Grid.Column="2" />
+                        <TextBlock Text="{Binding Limit}" Grid.Column="1" />
+                        <TextBlock Text="{Binding Balance}" Grid.Column="2" />
+                        <TextBlock Text="{Binding Percent}" Grid.Column="3" />
                        
 
                     </Grid>
