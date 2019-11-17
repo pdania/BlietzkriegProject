@@ -19,11 +19,10 @@ namespace UI
            
             InitializeComponent();
             DataContext = new MainWindowViewModel();
-//            ApplicationView.PreferredLaunchViewSize = new Size(800, 400);
+            ApplicationView.PreferredLaunchViewSize = new Size(500, 320);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-//            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500,320));
             NavigationManager.Instance.Initialize(new InitializationNavigationModel(this));
-            NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction);
+            NavigationManager.Instance.Navigate(ViewType.Transactions);
         }
 
         public ContentControl ContentControl

@@ -12,5 +12,14 @@ namespace UI.Templates
         public DateTime? TransactionDate { get; set; }
         public int Period { get; set; }
 
+        public ScheduleTranferDto(int tranferId, string cardNumberFrom, string cardNumberTo, int? amount, DateTime? transactionDate, int period)
+        {
+            TranferId = tranferId;
+            CardNumberFrom = cardNumberFrom;
+            CardNumberTo = cardNumberTo;
+            Amount = amount;
+            TransactionDate = transactionDate;
+            Period = period;
+        }
     }
 }
