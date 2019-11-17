@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UI.Templates;
 using UI.Tools.Navigation;
 using UI.ViewModels;
 
@@ -29,5 +30,6 @@ namespace UI.Views
             this.InitializeComponent();
             DataContext = new ScheduledTransactionViewModel();
         }
+        
     }
 }

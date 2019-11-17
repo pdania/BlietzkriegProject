@@ -23,7 +23,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Button Content="{Binding AddEdit, Mode=TwoWay}" Width="100" Command="{Binding AddEditCommand}"/>
-                <Button Content="Cancel" Width="100"  HorizontalAlignment="Right" Command="{Binding CancelCommand}"/>
+                <Button Content="Cancel" Width="100"  HorizontalAlignment="Center" Command="{Binding CancelCommand}" Margin="0,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
 
