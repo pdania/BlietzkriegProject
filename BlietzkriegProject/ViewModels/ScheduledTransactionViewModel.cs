@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -13,8 +12,8 @@ namespace UI.ViewModels
 {
     public class ScheduledTransactionViewModel:BaseViewModel
     {
-        private List<string> _accountType;
-        private string _selectedItems;
+        private List<Account> _accountType;
+        private Account _selectedItems;
         
         private string _sum;
         private string _cardNumber;
@@ -24,13 +23,13 @@ namespace UI.ViewModels
         private RelayCommand _cancelCommand;
 
 
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
 
-        public string AccountSelected
+        public Account AccountSelected
         {
             get { return this._selectedItems; }
             set
@@ -46,7 +45,7 @@ namespace UI.ViewModels
 
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecuteMakeSum();
         }
         private bool CanExecuteMakeSum()
@@ -107,7 +106,7 @@ namespace UI.ViewModels
 
         public ScheduledTransactionViewModel()
         {
-            AccountType = AccountNames.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
         
 

@@ -7,7 +7,6 @@ using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.Web.Http;
 using UI.Client;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;

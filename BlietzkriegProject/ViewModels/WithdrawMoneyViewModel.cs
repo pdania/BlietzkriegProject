@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -72,7 +71,7 @@ namespace UI.ViewModels
 
         public WithdrawMoneyViewModel()
         {
-            AccountType = StationManager.CurrentUser.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
         private bool CanExecuteCommand()
         {

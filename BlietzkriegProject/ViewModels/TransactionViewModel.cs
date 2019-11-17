@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -32,8 +31,8 @@ namespace UI.ViewModels
         private Visibility _history;
 
         private string _selectedItem;
-        private List<string> _accountType;
-        private string _selectedItems;
+        private List<Account> _accountType;
+        private Account _selectedItems;
         private RelayCommand _makeTranCommand;
         private string _sum;
         private string _cardNumber;
@@ -109,13 +108,13 @@ namespace UI.ViewModels
 
         #endregion
 
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
 
-        public string AccountSelected
+        public Account AccountSelected
         {
             get { return this._selectedItems; }
             set
@@ -129,7 +128,7 @@ namespace UI.ViewModels
 
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecuteMakeSum();
         }
 
@@ -278,7 +277,7 @@ namespace UI.ViewModels
             transactionList.Add("Make Transaction");
             transactionList.Add("Scheduled Transaction");
             transactionList.Add("Transaction history");
-            AccountType = AccountNames.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
 
             TransactionsHistory = new ObservableCollection<Transaction>();
             ScheduledTran = new ObservableCollection<ScheduleTranferDto>();

@@ -12,8 +12,8 @@ namespace UI.ViewModels
 {
     public class EditScheduledTranViewModel:BaseViewModel
     {
-        private List<string> _accountType;
-        private string _selectedItems;
+        private List<Account> _accountType;
+        private Account _selectedItems;
 
         private string _sum;
         private string _cardNumber;
@@ -23,13 +23,13 @@ namespace UI.ViewModels
         private RelayCommand _cancelCommand;
 
 
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
 
-        public string AccountSelected
+        public Account AccountSelected
         {
             get { return this._selectedItems; }
             set
@@ -45,7 +45,7 @@ namespace UI.ViewModels
 
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Amount) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecuteMakeSum();
         }
         private bool CanExecuteMakeSum()
@@ -110,8 +110,10 @@ namespace UI.ViewModels
             _cardNumber = tranferDto.CardNumberTo;
             _sum = tranferDto.Amount.ToString();
             _period = tranferDto.Period.ToString();
-           // _selectedItems = StationManager.AccountType(tranferDto.CardNumberFrom);
-            AccountType = AccountNames.Accounts;
+            _selectedItems = (from acc in StationManager.CurrentUser.Accounts
+                where acc.CardNumber == tranferDto.CardNumberFrom
+                select acc).First();
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
 
 

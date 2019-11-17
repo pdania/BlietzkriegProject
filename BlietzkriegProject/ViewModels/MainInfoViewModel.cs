@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -14,9 +14,9 @@ namespace UI.ViewModels
     internal class MainInfoViewModel : BaseViewModel
     {
         #region Fields
-        private List<string> _accountType;
+        private List<Account> _accountType;
         private string userName;
-        private string _selectedItem;
+        private Account _selectedItem;
 
 
         #endregion
@@ -45,7 +45,7 @@ namespace UI.ViewModels
         #endregion
 
 
-        public string SelectedItem
+        public Account SelectedItem
         {
             get { return _selectedItem; }
             set
@@ -72,7 +72,7 @@ namespace UI.ViewModels
             get { return _percent; }
             set { _percent = value; }
         }
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
@@ -85,7 +85,7 @@ namespace UI.ViewModels
         public MainInfoViewModel()
 
         {
-            AccountType = AccountNames.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
             Transactions = new ObservableCollection<Transaction>();
             Transactions.Add(item: new Transaction("From","To",2,DateTime.Now));
             Transactions.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
