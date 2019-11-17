@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using UI.Models;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -111,7 +110,7 @@ namespace UI.ViewModels
             _cardNumber = tranferDto.CardNumberTo;
             _sum = tranferDto.Amount.ToString();
             _period = tranferDto.Period.ToString();
-//            _selectedItems = StationManager.AccountType(tranferDto.CardNumberFrom);
+           // _selectedItems = StationManager.AccountType(tranferDto.CardNumberFrom);
             AccountType = AccountNames.Accounts;
         }
 

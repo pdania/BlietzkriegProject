@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using UI.Models;
+using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
 using UI.Tools.Navigation;
@@ -14,9 +15,9 @@ namespace UI.ViewModels
     {
         #region Fields
         private string _sum;
-        private string _selectedItems;
+        private Account _selectedItems;
         private string _information;
-        private List<string> _accountType;
+        private List<Account> _accountType;
 
         #endregion
 
@@ -36,13 +37,13 @@ namespace UI.ViewModels
             }
         }
 
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
 
-        public string AccountSelected
+        public Account AccountSelected
         {
             get { return this._selectedItems; }
             set
@@ -71,11 +72,11 @@ namespace UI.ViewModels
 
         public WithdrawMoneyViewModel()
         {
-            AccountType = AccountNames.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts;
         }
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(WithdrawSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(WithdrawSum) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecuteCardNumber();
         }
         private bool CanExecuteCardNumber()

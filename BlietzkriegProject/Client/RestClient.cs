@@ -66,8 +66,20 @@ namespace UI.Client
             StringContent sc = new StringContent(JsonConvert.SerializeObject(put));
             sc.Headers.Remove("Content-Type"); // "{text/plain; charset=utf-8}"
             sc.Headers.Add("token", StationManager.CurrentUser.Token);
+            sc.Headers.Add("Content-Type", "application/json");
             HttpResponseMessage response = await httpClient.PutAsJsonAsync(
                 "api /put", sc);
+            return response.StatusCode;
+        }
+        internal static async Task<HttpStatusCode> WithdrawMoney(Money withdraw)
+        {
+            var json = JsonConvert.SerializeObject(withdraw);
+            StringContent sc = new StringContent(JsonConvert.SerializeObject(withdraw));
+            sc.Headers.Remove("Content-Type"); // "{text/plain; charset=utf-8}"
+            sc.Headers.Add("token", StationManager.CurrentUser.Token);
+            sc.Headers.Add("Content-Type", "application/json");
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
+                "api /withdraw", sc);
             return response.StatusCode;
         }
     }

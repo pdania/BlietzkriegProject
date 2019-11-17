@@ -19,9 +19,9 @@ namespace UI.ViewModels
     internal class PutMoneyViewModel:BaseViewModel
     {
         #region Fields
-        private List<string> _accountType;
+        private List<Account> _accountType;
         private string _sum;
-        private string _selectedItems;
+        private Account _selectedItems;
         private string _information;
 
         #endregion
@@ -42,13 +42,13 @@ namespace UI.ViewModels
             }
         }
 
-        public List<string> AccountType
+        public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
 
-        public string AccountSelected
+        public Account AccountSelected
         {
             get { return this._selectedItems; }
             set
@@ -59,9 +59,6 @@ namespace UI.ViewModels
 
             }
         }
-        
-        
-
         #region Commands
         public RelayCommand PutCommand
         {
@@ -77,11 +74,11 @@ namespace UI.ViewModels
 
         public PutMoneyViewModel()
         {
-            AccountType = AccountNames.Accounts;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(PutSum) || string.IsNullOrWhiteSpace(AccountSelected)) return false;
+            if (string.IsNullOrWhiteSpace(PutSum) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecutePutSum();
         }
         private bool CanExecutePutSum()
@@ -91,18 +88,8 @@ namespace UI.ViewModels
         private async void PutMoneyImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            Account currentAccount = null;
             MessageDialog errorDialog;
-            currentAccount = StationManager.GetAccount(AccountSelected);
-            if (currentAccount == null)
-            {
-                errorDialog = new MessageDialog("You don't have such type of account", "Failed");
-                errorDialog.Commands.Add(new UICommand("Ok", null));
-                await errorDialog.ShowAsync();
-                NavigationManager.Instance.Navigate(ViewType.Put);
-                return;
-            }
-            var responseCode = await RestClient.PutMoney(new Money(currentAccount.CardNumber, Int32.Parse(PutSum)));
+            var responseCode = await RestClient.PutMoney(new Money(AccountSelected.CardNumber, Int32.Parse(PutSum)));
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Operation is successful //TODO sum put on account=" + AccountSelected, "Success");
