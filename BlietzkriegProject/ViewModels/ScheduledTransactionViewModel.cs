@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using UI.Models;
+using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
 using UI.Tools.Navigation;
@@ -21,6 +22,8 @@ namespace UI.ViewModels
 
         private RelayCommand _addEditCommand;
         private string _addEdit;
+        private bool _add;
+        private Transaction _transaction;
 
         public List<string> AccountType
         {
@@ -108,6 +111,12 @@ namespace UI.ViewModels
         public ScheduledTransactionViewModel()
         {
             _addEdit="Add";
+            AccountType = AccountNames.Accounts;
+        }
+        public ScheduledTransactionViewModel(bool add, Transaction transaction)
+        {
+            _add = add;
+            _transaction = transaction;
             AccountType = AccountNames.Accounts;
         }
 
