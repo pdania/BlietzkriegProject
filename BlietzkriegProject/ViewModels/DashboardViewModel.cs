@@ -40,8 +40,7 @@ namespace UI.ViewModels
             get
             {
 
-                //return _transactionCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Withdraw));
-                return null;
+                return _transactionCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Transactions));
             }
         }
     }

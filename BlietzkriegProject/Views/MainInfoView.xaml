@@ -5,8 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-    Height="320" Width="500" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,7 +21,7 @@
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
                     DisplayMode="Inline" >
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox">
                    
                 </ListBox>
             </SplitView.Pane>

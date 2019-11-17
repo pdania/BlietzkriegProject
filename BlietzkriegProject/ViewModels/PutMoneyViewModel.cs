@@ -91,9 +91,14 @@ namespace UI.ViewModels
             var responseCode = await RestClient.PutMoney(new Money(AccountSelected.CardNumber, Int32.Parse(PutSum)));
             if (responseCode == HttpStatusCode.OK)
             {
-                var dialog = new MessageDialog("Operation is successful //TODO sum put on account=" + AccountSelected, "Success");
+                var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox, "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
+                foreach (var currentUserAccount in StationManager.CurrentUser.Accounts)
+                {
+                    if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
+                        currentUserAccount.Balance += Int32.Parse(PutSum);
+                }
                 NavigationManager.Instance.Navigate(ViewType.Put);
             }
             LoaderManeger.Instance.HideLoader();

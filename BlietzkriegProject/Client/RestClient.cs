@@ -30,6 +30,7 @@ namespace UI.Client
             if (response.IsSuccessStatusCode)
             {
                 user = await response.Content.ReadAsAsync<User>();
+                httpClient.DefaultRequestHeaders.Add("token", user.Token);
                 return user;
             }
             return user;
@@ -62,24 +63,14 @@ namespace UI.Client
 
         internal static async Task<HttpStatusCode> PutMoney(Money put)
         {
-            var json = JsonConvert.SerializeObject(put);
-            StringContent sc = new StringContent(JsonConvert.SerializeObject(put));
-            sc.Headers.Remove("Content-Type"); // "{text/plain; charset=utf-8}"
-            sc.Headers.Add("token", StationManager.CurrentUser.Token);
-            sc.Headers.Add("Content-Type", "application/json");
-            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                "api /put", sc);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/put", put);
             return response.StatusCode;
         }
         internal static async Task<HttpStatusCode> WithdrawMoney(Money withdraw)
         {
-            var json = JsonConvert.SerializeObject(withdraw);
-            StringContent sc = new StringContent(JsonConvert.SerializeObject(withdraw));
-            sc.Headers.Remove("Content-Type"); // "{text/plain; charset=utf-8}"
-            sc.Headers.Add("token", StationManager.CurrentUser.Token);
-            sc.Headers.Add("Content-Type", "application/json");
-            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                "api /withdraw", sc);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/withdraw", withdraw);
             return response.StatusCode;
         }
     }

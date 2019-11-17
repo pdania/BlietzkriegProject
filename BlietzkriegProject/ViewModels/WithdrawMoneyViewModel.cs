@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UI.Client;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -85,17 +87,27 @@ namespace UI.ViewModels
         private async void WithdrawMoneyImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
+            MessageDialog errorDialog;
+            var responseCode = await RestClient.WithdrawMoney(new Money(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+            if (responseCode == HttpStatusCode.OK)
             {
-                Task.Delay(1000).Wait();
-                //TODO Withdraw money on account
-            });
+                var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox, "Success");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                foreach (var currentUserAccount in StationManager.CurrentUser.Accounts)
+                {
+                    if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
+                        currentUserAccount.Balance -= Int32.Parse(WithdrawSum);
+                }
+                NavigationManager.Instance.Navigate(ViewType.Withdraw);
+            }
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum withdraw from account=" + AccountSelected, "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
+            errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
+            errorDialog.Commands.Add(new UICommand("Ok", null));
+            await errorDialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Withdraw);
         }
+    }
 
     }
 }
