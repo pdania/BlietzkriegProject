@@ -8,8 +8,7 @@ namespace UI.Templates
             public string Login { get; set; }
             public string Token { get; set; }
 
-            public ICollection<User> Accounts;
-
+            public ICollection<Account> Accounts;
     }
 
 }

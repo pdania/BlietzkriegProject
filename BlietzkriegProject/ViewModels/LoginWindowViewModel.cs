@@ -116,7 +116,7 @@ namespace UI.ViewModels
             LoaderManeger.Instance.HideLoader();
             if (flag)
             {
-                var dialog = new MessageDialog("CardNumber successful for user " + StationManager.CurrentUser.Login,
+                var dialog = new MessageDialog("CardNumber successful for user " + StationManager.CurrentUser.Login+"  token:"+ StationManager.CurrentUser.Token,
                     "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();

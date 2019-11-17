@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.Web.Http;
+using UI.Client;
 using UI.Models;
+using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
 using UI.Tools.Navigation;
+using HttpStatusCode = System.Net.HttpStatusCode;
 
 namespace UI.ViewModels
 {
@@ -88,48 +91,29 @@ namespace UI.ViewModels
         private async void PutMoneyImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
+            Account currentAccount = null;
+            MessageDialog errorDialog;
+            currentAccount = StationManager.GetAccount(AccountSelected);
+            if (currentAccount == null)
             {
-                Task.Delay(1000).Wait();
-                //TODO Put money on account
-
-            });
+                errorDialog = new MessageDialog("You don't have such type of account", "Failed");
+                errorDialog.Commands.Add(new UICommand("Ok", null));
+                await errorDialog.ShowAsync();
+                NavigationManager.Instance.Navigate(ViewType.Put);
+                return;
+            }
+            var responseCode = await RestClient.PutMoney(new Money(currentAccount.CardNumber, Int32.Parse(PutSum)));
+            if (responseCode == HttpStatusCode.OK)
+            {
+                var dialog = new MessageDialog("Operation is successful //TODO sum put on account=" + AccountSelected, "Success");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                NavigationManager.Instance.Navigate(ViewType.Put);
+            }
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum put on account="+AccountSelected, "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Put);
-        }
-
-        private async Task TryPostJsonAsync()
-        {
-            try
-            {
-                // Construct the HttpClient and Uri. This endpoint is for test purposes only.
-                HttpClient httpClient = new HttpClient();
-                Uri uri = new Uri("https://www.contoso.com/post");
-
-                // Construct the JSON to post.
-                HttpStringContent content = new HttpStringContent(
-                    "{ \"firstName\": \"Eliot\" }",
-                    UnicodeEncoding.Utf8,
-                    "application/json");
-
-                // Post the JSON and wait for a response.
-                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(
-                    uri,
-                    content);
-
-                // Make sure the post succeeded, and write out the response.
-                httpResponseMessage.EnsureSuccessStatusCode();
-                var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
-                Debug.WriteLine(httpResponseBody);
-            }
-            catch (Exception ex)
-            {
-                // Write out any exceptions.
-                Debug.WriteLine(ex);
-            }
+            errorDialog = new MessageDialog("Error occured while trying to put money", "Failed");
+            errorDialog.Commands.Add(new UICommand("Ok", null));
+            await errorDialog.ShowAsync();
         }
     }
 }
