@@ -8,7 +8,8 @@
         Withdraw,
         MainInfo,
         Dashboard,
-        Transactions
+        Transactions,
+        ScheduledTransaction
     }
 
     interface INavigationModel
