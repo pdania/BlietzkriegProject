@@ -39,7 +39,7 @@ namespace UI.ViewModels
         private string _cardNumber;
         private ObservableCollection<Transaction> _transactionsHistory;
         private ObservableCollection<ScheduleTranferDto> _scheduledTran;
-        private Transaction _selectedTran;
+        private ScheduleTranferDto _selectedTran;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -199,7 +199,7 @@ namespace UI.ViewModels
             set => _scheduledTran = value;
         }
 
-        public Transaction SelectedTransaction
+        public ScheduleTranferDto SelectedTransaction
         {
             get { return this._selectedTran; }
             set
@@ -209,7 +209,6 @@ namespace UI.ViewModels
                 _selectedTran = value;
                 OnPropertyChanged();
                 EditTranImplementation();
-
             }
         }
 
@@ -242,6 +241,16 @@ namespace UI.ViewModels
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            ScheduledTran.Add(new ScheduleTranferDto(1,"45","56",45,DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
         }
 
         private void ChangeWindow(int n)

@@ -76,7 +76,7 @@
 
                         <GridView Grid.Row ="1" ItemsSource="{Binding ScheduledTran}" ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible"
-                            ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}">
+                            ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapGrid Orientation="Vertical"/>
