@@ -9,7 +9,8 @@
         MainInfo,
         Dashboard,
         Transactions,
-        ScheduledTransaction
+        ScheduledTransaction,
+        EditScheduledTran
     }
 
     interface INavigationModel

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interop="using:Windows.UI.Xaml.Interop"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="700" >
 
     <Grid Background="Blue" >
        
@@ -18,7 +18,7 @@
             <Button RelativePanel.AlignLeftWithPanel="True"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding CancelCommand}" />
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding User}" RelativePanel.AlignHorizontalCenterWithPanel="True"></TextBlock>
-            <Button Content="Add transaction" Visibility="{Binding ScheduledTranVisibility}" RelativePanel.AlignRightWithPanel="True"></Button>
+            <Button Content="Add transaction" Visibility="{Binding ScheduledTranVisibility}" RelativePanel.AlignRightWithPanel="True" Command="{Binding AddCommand}"></Button>
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="180"
@@ -57,6 +57,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row ="0">
@@ -76,12 +77,12 @@
 
                         <GridView Grid.Row ="1" ItemsSource="{Binding ScheduledTran}" ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible"
-                            ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapGrid Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
+                            ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <!-- <GridView.ItemsPanel> -->
+                            <!--     <ItemsPanelTemplate> -->
+                            <!--         <WrapGrid Orientation="Vertical"/> -->
+                            <!--     </ItemsPanelTemplate> -->
+                            <!-- </GridView.ItemsPanel> -->
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid >
@@ -105,7 +106,10 @@
                             <!-- </GridView.Items> -->
                         </GridView>
 
-
+                    <Grid Grid.Row="2">
+                            <Button Content="Edit" Command="{Binding EditCommand}"></Button>
+                            <Button Content="Remove" Command="{Binding RemoveCommand}" HorizontalAlignment="Right"></Button>
+                    </Grid>
 
                     </Grid>
                     <Grid Visibility="{Binding TranHistoryVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -133,11 +137,11 @@
                         <GridView Grid.Row ="1" ItemsSource="{Binding TransactionsHistory}" ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                             ScrollViewer.VerticalScrollMode="Enabled">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapGrid Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
+                            <!-- <GridView.ItemsPanel> -->
+                            <!--     <ItemsPanelTemplate> -->
+                            <!--         <WrapGrid Orientation="Vertical"/> -->
+                            <!--     </ItemsPanelTemplate> -->
+                            <!-- </GridView.ItemsPanel> -->
                             <GridView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid >

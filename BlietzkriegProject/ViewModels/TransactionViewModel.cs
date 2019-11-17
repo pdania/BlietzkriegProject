@@ -39,7 +39,10 @@ namespace UI.ViewModels
         private string _cardNumber;
         private ObservableCollection<Transaction> _transactionsHistory;
         private ObservableCollection<ScheduleTranferDto> _scheduledTran;
-        private Transaction _selectedTran;
+        private ScheduleTranferDto _selectedTran;
+        private RelayCommand _addCommand;
+        private RelayCommand _editCommand;
+        private RelayCommand _removeCommand;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -198,29 +201,71 @@ namespace UI.ViewModels
             get => _scheduledTran;
             set => _scheduledTran = value;
         }
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return _addCommand ??
+                       (_addCommand = new RelayCommand(()=>NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction)));
+            }
+        }
 
-        public Transaction SelectedTransaction
+        public RelayCommand EditCommand
+        {
+            get
+            {
+                return _editCommand ??
+                       (_editCommand = new RelayCommand(()=> NavigationManager.Instance.Navigate(ViewType.EditScheduledTran), () => CanExecute()));
+            }
+        }
+
+        private bool CanExecute()
+        {
+            return _selectedTran != null;
+        }
+        public RelayCommand RemoveCommand
+        {
+            get
+            {
+                return _removeCommand ??
+                       (_removeCommand = new RelayCommand(RemoveScheduledTranImplementation, () => CanExecute()));
+            }
+        }
+        private async void RemoveScheduledTranImplementation()
+        {
+            LoaderManeger.Instance.ShowLoader();
+            await Task.Run(() =>
+            {
+                Task.Delay(1000).Wait();
+                //TODO  Remove scheduled transaction
+
+            });
+            LoaderManeger.Instance.HideLoader();
+            var dialog = new MessageDialog("Operation is successful //TODO remove transaction", "Success");
+            dialog.Commands.Add(new UICommand("Ok", null));
+            await dialog.ShowAsync();
+            NavigationManager.Instance.Navigate(ViewType.Transactions);
+        }
+
+        public ScheduleTranferDto SelectedTransaction
         {
             get { return this._selectedTran; }
             set
             {
-                this._selectedTran = value;
                 if (value == _selectedTran) return;
+                this._selectedTran = value;
+                
                 _selectedTran = value;
+                StationManager.CurrentScheduledTransfer = _selectedTran;
+                EditCommand.RaiseCanExecuteChanged();
+                RemoveCommand.RaiseCanExecuteChanged();
+               
                 OnPropertyChanged();
-                EditTranImplementation();
+               
 
             }
         }
 
-        private void EditTranImplementation()
-        {
-
-            //TODo open new window
-
-            NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction);
-
-        }
         
 
 
@@ -242,6 +287,11 @@ namespace UI.ViewModels
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
+            ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
         }
 
         private void ChangeWindow(int n)

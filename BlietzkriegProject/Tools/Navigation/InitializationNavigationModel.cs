@@ -38,6 +38,9 @@ namespace UI.Tools.Navigation
                 case ViewType.ScheduledTransaction:
                     ViewsDictionary.Add(viewType, new ScheduledTransactionView());
                     break;
+                case ViewType.EditScheduledTran:
+                    ViewsDictionary.Add(viewType, new EditScheduledTranView());
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }
