@@ -126,7 +126,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\Account.cs" />
     <Compile Include="Templates\Card.cs" />
-    <Compile Include="Templates\Money.cs" />
+    <Compile Include="Templates\MoneyFrom.cs" />
+    <Compile Include="Templates\MoneyTo.cs" />
     <Compile Include="Templates\ScheduleInput.cs" />
     <Compile Include="Templates\ScheduleTransferDto.cs" />
     <Compile Include="Templates\StationManager.cs" />

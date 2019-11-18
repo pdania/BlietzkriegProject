@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UI.Client;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -47,7 +48,7 @@ namespace UI.ViewModels
             get { return _selectedItem; }
             set
             {
-                //if (value == _selectedItem) return;
+                if (value == _selectedItem) return;
                 _selectedItem = value;
                 OnPropertyChanged();
                 AccountChangeImplementation();
@@ -67,31 +68,28 @@ namespace UI.ViewModels
 
         {
             AccountType = StationManager.CurrentUser.Accounts.ToList();
+            SelectedItem = StationManager.CurrentUser.Accounts.First();
+            LoaderManeger.Instance.ShowLoader();
+
             Transactions = new ObservableCollection<Transaction>();
-            Transactions.Add(item: new Transaction("From","To",2,DateTime.Now));
-            Transactions.Add(item: new Transaction("64564", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
+            GetTransactions();
+            LoaderManeger.Instance.HideLoader();
         }
-        private async void AccountChangeImplementation()
+
+        private async void GetTransactions()
+        {
+            var allTransactions = await RestClient.GetTransfers();
+            var specificTransactions = (from transaction in allTransactions
+                where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
+                select transaction);
+            foreach (var specificTransaction in specificTransactions)
+                Transactions.Add(specificTransaction);
+        }
+        private void AccountChangeImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
-            {
-                Task.Delay(1000).Wait();
-                //TODO Put money on account
-            });
+            GetTransactions();
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum put on account="+ _selectedItem, "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.MainInfo);
         }
 
 

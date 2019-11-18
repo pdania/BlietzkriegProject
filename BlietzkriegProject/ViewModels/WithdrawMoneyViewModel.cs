@@ -102,7 +102,7 @@ namespace UI.ViewModels
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
             var responseCode =
-                await RestClient.WithdrawMoney(new Money(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+                await RestClient.WithdrawMoney(AccountSelected.CardNumber, Int32.Parse(WithdrawSum));
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox,

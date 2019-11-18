@@ -61,16 +61,16 @@ namespace UI.Client
             return accounts;
         }
 
-        internal static async Task<HttpStatusCode> PutMoney(Money put)
+        internal static async Task<HttpStatusCode> PutMoney(MoneyTo put)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
                 "api/put", put);
             return response.StatusCode;
         }
-        internal static async Task<HttpStatusCode> WithdrawMoney(Money withdraw)
+        internal static async Task<HttpStatusCode> WithdrawMoney(string cardNumber, int amount)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
-                "api/withdraw", withdraw);
+                "api/withdraw", "{\"IdFrom\":"+cardNumber+",\"Amount\":"+amount+"}");
             return response.StatusCode;
         }
     }
