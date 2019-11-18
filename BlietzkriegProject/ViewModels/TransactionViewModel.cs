@@ -42,6 +42,7 @@ namespace UI.ViewModels
         private RelayCommand _addCommand;
         private RelayCommand _editCommand;
         private RelayCommand _removeCommand;
+        private RelayCommand _cancelCommand;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -230,6 +231,12 @@ namespace UI.ViewModels
                        (_removeCommand = new RelayCommand(RemoveScheduledTranImplementation, () => CanExecute()));
             }
         }
+
+        public RelayCommand CancelCommand
+        {
+            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard))); }
+        }
+
         private async void RemoveScheduledTranImplementation()
         {
             LoaderManeger.Instance.ShowLoader();

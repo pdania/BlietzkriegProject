@@ -25,9 +25,6 @@ namespace UI.ViewModels
         private RelayCommand _naviCommand;
         private RelayCommand _backCommand;
         private ObservableCollection<Transaction> _transactions;
-        private string _limit;
-        private string _balance;
-        private string _percent;
 
         #endregion
 
@@ -50,27 +47,11 @@ namespace UI.ViewModels
             get { return _selectedItem; }
             set
             {
-                if (value == _selectedItem) return;
+                //if (value == _selectedItem) return;
                 _selectedItem = value;
                 OnPropertyChanged();
                 AccountChangeImplementation();
             }
-        }
-
-        public string Limit
-        {
-            get { return _limit;}
-            set { _limit = value; }
-        }
-        public string Balance
-        {
-            get { return _balance; }
-            set { _balance = value; }
-        }
-        public string Percent
-        {
-            get { return _percent; }
-            set { _percent = value; }
         }
         public List<Account> AccountType
         {
@@ -88,7 +69,7 @@ namespace UI.ViewModels
             AccountType = StationManager.CurrentUser.Accounts.ToList();
             Transactions = new ObservableCollection<Transaction>();
             Transactions.Add(item: new Transaction("From","To",2,DateTime.Now));
-            Transactions.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
+            Transactions.Add(item: new Transaction("64564", "Dania", 2, DateTime.Now));
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
@@ -97,11 +78,6 @@ namespace UI.ViewModels
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-
-            //TODO add to this strings value
-            _limit = "Limit: ";
-            _balance = "Balance: ";
-            _percent = "Percent: ";
         }
         private async void AccountChangeImplementation()
         {
