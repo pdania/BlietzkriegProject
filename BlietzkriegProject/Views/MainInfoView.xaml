@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-    <Grid>
+    <Grid Background="Blue">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,9 +19,9 @@
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
-                    DisplayMode="Inline" >
+                    DisplayMode="Inline" Background="Aqua">
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -43,23 +43,15 @@
                     <Grid Grid.Row ="0">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding SelectedItem}" Grid.Column="0" />
-                        <TextBlock Text="{Binding Limit}" Grid.Column="1" />
-                        <TextBlock Text="{Binding Balance}" Grid.Column="2" />
-                        <TextBlock Text="{Binding Percent}" Grid.Column="3" />
-                       
-
+                        <TextBox Text="4545"></TextBox>
                     </Grid>
                     <Grid Grid.Row ="1">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
@@ -83,8 +75,8 @@
                                 <Grid >
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="180"/>
+                                        <ColumnDefinition Width="180"/>
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="150"/>
                                     </Grid.ColumnDefinitions>

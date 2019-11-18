@@ -6,9 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interop="using:Windows.UI.Xaml.Interop"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="700" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-    <Grid Background="Blue" >
+    <Grid Background="Blue">
        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
