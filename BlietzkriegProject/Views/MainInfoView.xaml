@@ -45,15 +45,15 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="4545"></TextBox>
+                        <!-- <TextBox Text="4545"></TextBox> -->
                     </Grid>
                     <Grid Grid.Row ="1">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="From" Grid.Column="0" />
                         <TextBlock Text="To" Grid.Column="1" />
@@ -65,20 +65,17 @@
                     <GridView Grid.Row ="2" ItemsSource="{Binding Transactions}" ScrollViewer.HorizontalScrollMode="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                             ScrollViewer.VerticalScrollMode="Enabled">
-                    <!-- <GridView.ItemsPanel> -->
-                    <!--     <ItemsPanelTemplate> -->
-                    <!--         <WrapGrid Orientation="Vertical"/> -->
-                    <!--     </ItemsPanelTemplate> -->
-                    <!-- </GridView.ItemsPanel> -->
+                    
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid >
-
+                                   
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="180"/>
                                         <ColumnDefinition Width="180"/>
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="150"/>
+
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding From}" Grid.Column="0" />
                                     <TextBlock Text="{Binding To}" Grid.Column="1" />
