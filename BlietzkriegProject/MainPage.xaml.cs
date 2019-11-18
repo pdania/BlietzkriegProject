@@ -19,8 +19,8 @@ namespace UI
            
             InitializeComponent();
             DataContext = new MainWindowViewModel();
-           // ApplicationView.PreferredLaunchViewSize = new Size(500, 320);
-            //ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.PreferredLaunchViewSize = new Size(800, 600);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             NavigationManager.Instance.Initialize(new InitializationNavigationModel(this));
             NavigationManager.Instance.Navigate(ViewType.Login);
         }

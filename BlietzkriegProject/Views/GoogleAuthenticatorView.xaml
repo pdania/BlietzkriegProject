@@ -9,7 +9,7 @@
     Height="320" Width="500">
 
     <Grid>
-        <StackPanel Margin="20">
+        <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Input google authenticator code" Style="{StaticResource TitleTextBlockStyle}"/>
             <PasswordBox Header="Code" Margin="0,40,0,0" MaxLength="6" Width="200" HorizontalAlignment="Left" Password = "{Binding AuthenticatorCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal" Margin="0,80,0,0" HorizontalAlignment="Center">
