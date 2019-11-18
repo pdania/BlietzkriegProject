@@ -17,6 +17,6 @@ namespace UI.Views
             this.InitializeComponent();
             DataContext = new LoginWindowViewModel();
         }
-    
+
     }
 }
