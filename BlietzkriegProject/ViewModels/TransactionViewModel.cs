@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using UI.Client;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -285,14 +286,10 @@ namespace UI.ViewModels
             transactionList.Add("Scheduled Transaction");
             transactionList.Add("Transaction history");
             AccountType = StationManager.CurrentUser.Accounts.ToList();
-
-            TransactionsHistory = new ObservableCollection<Transaction>();
+            LoaderManeger.Instance.ShowLoader();
+            GetTransactions();
+            LoaderManeger.Instance.HideLoader();
             ScheduledTran = new ObservableCollection<ScheduleTranferDto>();
-            TransactionsHistory.Add(item: new Transaction("From", "To", 2, DateTime.Now));
-            TransactionsHistory.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
-            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            TransactionsHistory.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
             ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
             ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
             ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
@@ -300,6 +297,28 @@ namespace UI.ViewModels
             ScheduledTran.Add(new ScheduleTranferDto(1, "45", "56", 45, DateTime.Now, 3));
         }
 
+        private async void GetTransactions()
+        {
+            TransactionsHistory = new ObservableCollection<Transaction>();
+            var allTransactions = await RestClient.GetTransfers();
+            foreach (var specificTransaction in allTransactions)
+            {
+                if (specificTransaction.To == null)
+                {
+                    specificTransaction.To = "ATM";
+                    TransactionsHistory.Add(specificTransaction);
+                    continue;
+                }
+                if (specificTransaction.From == null)
+                {
+                    specificTransaction.From = "ATM";
+                    TransactionsHistory.Add(specificTransaction);
+                    continue;
+                }
+                TransactionsHistory.Add(specificTransaction);
+            }
+
+        }
         private void ChangeWindow(int n)
         {
             
@@ -315,6 +334,9 @@ namespace UI.ViewModels
                     ScheduledTranVisibility = Visibility.Visible;
                     break;
                 case 2:
+                    LoaderManeger.Instance.ShowLoader();
+                    GetTransactions();
+                    LoaderManeger.Instance.HideLoader();
                     TranHistoryVisibility = Visibility.Visible;
                     break;
                 default:

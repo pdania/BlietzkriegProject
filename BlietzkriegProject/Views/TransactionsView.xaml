@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-    <Grid Background="Blue">
+    <Grid>
        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,10 +24,10 @@
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="180"
                     DisplayMode="Inline" Background="Aqua" >
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding TransactionList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox Background="LightGray" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding TransactionList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </SplitView.Pane>
             <SplitView.Content >
-                <Grid>
+                <Grid >
                     
                     <Grid Visibility="{Binding MakeTranVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <Grid.ColumnDefinitions>
@@ -61,15 +61,15 @@
                         <Grid Grid.Row ="0">
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="150"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="From" Grid.Column="0" />
                             <TextBlock Text="To" Grid.Column="1" />
                             <TextBlock Text="Amount" Grid.Column="2" />
-                            <TextBlock Text="Period" Grid.Column="3" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Period" Grid.Column="3"/>
 
                         </Grid>
 
@@ -86,9 +86,9 @@
                                     <Grid >
 
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="100"/>
                                             <ColumnDefinition Width="150"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding CardNumberFrom}" Grid.Column="0" />

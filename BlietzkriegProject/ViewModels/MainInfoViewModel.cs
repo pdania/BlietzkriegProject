@@ -59,31 +59,50 @@ namespace UI.ViewModels
             get => _accountType;
             set => _accountType = value;
         }
+
         public ObservableCollection<Transaction> Transactions
         {
             get => _transactions;
-            set => _transactions = value;
+            set
+            {
+                _transactions = value; 
+                OnPropertyChanged();
+            }
         }
+
         public MainInfoViewModel()
 
         {
+            LoaderManeger.Instance.ShowLoader();
             AccountType = StationManager.CurrentUser.Accounts.ToList();
             SelectedItem = StationManager.CurrentUser.Accounts.First();
-            LoaderManeger.Instance.ShowLoader();
-
-            Transactions = new ObservableCollection<Transaction>();
             GetTransactions();
             LoaderManeger.Instance.HideLoader();
         }
 
         private async void GetTransactions()
         {
+            Transactions = new ObservableCollection<Transaction>();
             var allTransactions = await RestClient.GetTransfers();
             var specificTransactions = (from transaction in allTransactions
                 where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
                 select transaction);
             foreach (var specificTransaction in specificTransactions)
+            {
+                if (specificTransaction.To == null)
+                {
+                    specificTransaction.To = "ATM";
+                    Transactions.Add(specificTransaction);
+                    continue;
+                }
+                if (specificTransaction.From == null)
+                {
+                    specificTransaction.From = "ATM";
+                    Transactions.Add(specificTransaction);
+                    continue;
+                }
                 Transactions.Add(specificTransaction);
+            }
         }
         private void AccountChangeImplementation()
         {

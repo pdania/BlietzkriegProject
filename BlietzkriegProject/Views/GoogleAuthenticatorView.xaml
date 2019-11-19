@@ -11,7 +11,11 @@
     <Grid>
         <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Input google authenticator code" Style="{StaticResource TitleTextBlockStyle}"/>
-            <PasswordBox Header="Code" Margin="0,40,0,0" MaxLength="6" Width="200" HorizontalAlignment="Left" Password = "{Binding AuthenticatorCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                <TextBlock Text="You can sign up"/>
+                <TextBlock Margin="5,0,0,0"><Hyperlink NavigateUri="https://moopblizkrieg.azurewebsites.net/">here</Hyperlink></TextBlock>
+            </StackPanel>
+            <PasswordBox Header="Code" Margin="0,30,0,0" MaxLength="6" Width="200" HorizontalAlignment="Left" Password = "{Binding AuthenticatorCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal" Margin="0,80,0,0" HorizontalAlignment="Center">
                 <Button Content="Back" Width="100" Command="{Binding BackCommand}"/>
                 <Button Content="Enter" Width="100" Margin="200,0,0,0" Command="{Binding SignInCommand}"/>

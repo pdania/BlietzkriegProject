@@ -4,8 +4,8 @@ namespace UI.Templates
 {
     public class Transaction
     {
-        public string From { get; private set; }
-        public string To { get; private set; }
+        public string From { get; set; }
+        public string To { get; set; }
         public int Amount { get; private set; }
         public DateTime Time { get; private set;}
 
