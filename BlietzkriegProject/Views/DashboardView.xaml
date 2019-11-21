@@ -13,7 +13,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 
                 <TextBlock Text="Dashboard" HorizontalAlignment="Stretch" VerticalAlignment ="Center" Style="{StaticResource TitleTextBlockStyle}" />
-                <Button Content="Sign Out" Command="{Binding LoginCommand}" HorizontalAlignment="Right" Margin="260,0,0,0"/>
+                <Button Content="Sign Out" Command="{Binding LoginCommand}" HorizontalAlignment="Right" Margin="260,0,0,0" Background="DarkSlateGray" Foreground="White"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,0">
                 <Button Content="Withdraw" Width="140" Height="40" Command="{Binding WithdrawCommand}"/>
