@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+    >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,22 +20,22 @@
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
-                    DisplayMode="Inline" Background="Aqua">
+                    DisplayMode="Inline">
             <SplitView.Pane >
-                <ListBox SelectionMode="Single" Background="LightGray" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox SelectionMode="Single" Background="DarkSlateGray" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock FontSize="16" Text="{Binding Type}"/>
-                                <TextBlock FontSize="12" Text="{Binding CardNumber}"/>
+                                <TextBlock FontSize="16" Text="{Binding Type}" Foreground="White"/>
+                                <TextBlock FontSize="12" Text="{Binding CardNumber}" Foreground="White"/>
                             </StackPanel>
                         </DataTemplate>
 
                     </ListBox.ItemTemplate>
                 </ListBox>
             </SplitView.Pane>
-            <SplitView.Content >
-                <Grid>
+            <SplitView.Content>
+                <Grid Margin="20,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

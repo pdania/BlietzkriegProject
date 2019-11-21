@@ -102,7 +102,7 @@ namespace UI.ViewModels
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
             var responseCode =
-                await RestClient.WithdrawMoney(AccountSelected.CardNumber, Int32.Parse(WithdrawSum));
+                await RestClient.WithdrawMoney(new MoneyFrom(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox,
@@ -117,12 +117,14 @@ namespace UI.ViewModels
 
                 NavigationManager.Instance.Navigate(ViewType.Withdraw);
             }
-
-            LoaderManeger.Instance.HideLoader();
-            errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
-            errorDialog.Commands.Add(new UICommand("Ok", null));
-            await errorDialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Withdraw);
+            else
+            {
+                LoaderManeger.Instance.HideLoader();
+                errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
+                errorDialog.Commands.Add(new UICommand("Ok", null));
+                await errorDialog.ShowAsync();
+                NavigationManager.Instance.Navigate(ViewType.Withdraw);
+            }
         }
     }
 }

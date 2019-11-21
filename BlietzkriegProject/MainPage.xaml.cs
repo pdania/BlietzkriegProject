@@ -1,4 +1,5 @@
 ﻿using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using UI.Tools.Managers;
@@ -18,6 +19,9 @@ namespace UI
         {
            
             InitializeComponent();
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.BackgroundColor = Colors.DarkSlateGray;
+            titleBar.ButtonBackgroundColor = Colors.DarkSlateGray;
             DataContext = new MainWindowViewModel();
             ApplicationView.PreferredLaunchViewSize = new Size(800, 600);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;

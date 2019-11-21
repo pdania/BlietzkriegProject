@@ -88,15 +88,6 @@ namespace UI.ViewModels
         {
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
-            if(AccountSelected.Limit != null && ((AccountSelected.Balance + Int32.Parse(PutSum)) > AccountSelected.Limit))
-            {
-                LoaderManeger.Instance.HideLoader();
-                errorDialog = new MessageDialog("Balance on account after adding this amount will be bigger that limit", "Failed");
-                errorDialog.Commands.Add(new UICommand("Ok", null));
-                await errorDialog.ShowAsync();
-                NavigationManager.Instance.Navigate(ViewType.Put);
-                return;
-            }
             var responseCode = await RestClient.PutMoney(new MoneyTo(AccountSelected.CardNumber, Int32.Parse(PutSum)));
             if (responseCode == HttpStatusCode.OK)
             {

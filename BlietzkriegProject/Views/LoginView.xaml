@@ -10,7 +10,7 @@
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <StackPanel Margin="20">
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text = "{Binding Information, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Header= "Card number" Margin="0,24,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox InputScope="Number" Header= "Card number" Margin="0,24,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <PasswordBox Header="PIN" Margin="0,24,0,0" MaxLength="4" Width="400" HorizontalAlignment="Left" Password = "{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal" Margin="0,40,0,0" HorizontalAlignment="Center">
                 <Button Content="Enter" Width="100" Command="{Binding GoogleCommand}"/>
