@@ -45,7 +45,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <!-- <TextBox Text="4545"></TextBox> -->
+                        <TextBox Text="{Binding AccountInfo}"></TextBox>
                     </Grid>
                     <Grid Grid.Row ="1">
 
