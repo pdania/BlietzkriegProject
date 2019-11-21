@@ -26,6 +26,7 @@ namespace UI.ViewModels
         private RelayCommand _naviCommand;
         private RelayCommand _backCommand;
         private ObservableCollection<Transaction> _transactions;
+        private string _accountInfo;
 
         #endregion
 
@@ -42,7 +43,15 @@ namespace UI.ViewModels
 
         #endregion
 
-
+        public string User
+        {
+            get =>userName;
+            set =>userName=value;
+        }
+        public string AccountInfo {
+            get =>_accountInfo;
+            set => _accountInfo = value;
+        }
         public Account SelectedItem
         {
             get { return _selectedItem; }
@@ -74,6 +83,8 @@ namespace UI.ViewModels
 
         {
             LoaderManeger.Instance.ShowLoader();
+            AccountInfo = "Danylo make info about account";
+            User = "Byblik";
             AccountType = StationManager.CurrentUser.Accounts.ToList();
             SelectedItem = StationManager.CurrentUser.Accounts.First();
             GetTransactions();

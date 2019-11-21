@@ -37,8 +37,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Make transaction" HorizontalAlignment="Left" VerticalAlignment ="Center" Style="{StaticResource TitleTextBlockStyle}"/>
                             </StackPanel>
+                            
+                            <!-- SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" -->
                             <ComboBox Header="" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,24,0,0" Width="400"  Height="50" SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
-                            <TextBox Header= "Card number" Margin="0,24,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumberM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            
+                            <ToggleSwitch OnContent="CardNumber" OffContent="MyAccount" IsOn="{Binding ToAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="To account"/>
+                            <TextBox Visibility="{Binding ToAnotherCardVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumberM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Header="" PlaceholderText="Account type" Visibility="{Binding ToMyCardVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" Width="400"  Height="50" SelectedValue="{Binding ToMyAccountSelcted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
+                            
                             <TextBox Header= "Amount" Margin="0,24,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding AmountM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">

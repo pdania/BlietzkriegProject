@@ -17,7 +17,7 @@ namespace UI.ViewModels
 {
     public class TransactionViewModel : BaseViewModel
     {
-//        private bool _window = true;
+        private bool _toAnotherCard;
 //        private List<string> _transction;
         private List<string> transactionList;
 
@@ -44,6 +44,9 @@ namespace UI.ViewModels
         private RelayCommand _editCommand;
         private RelayCommand _removeCommand;
         private RelayCommand _cancelCommand;
+        private Visibility _myCard;
+        private Visibility _toAnother;
+        private Account _toAccountSelected;
 
         //        public RelayCommand CancelCommand
         //        {
@@ -110,6 +113,11 @@ namespace UI.ViewModels
 
         #endregion
 
+        #region MakeTransaction
+
+        
+
+        
         public List<Account> AccountType
         {
             get => _accountType;
@@ -130,8 +138,20 @@ namespace UI.ViewModels
 
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
-            return CanExecuteMakeSum();
+            if (_toAnotherCard)
+            {
+                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox))
+                    return false;
+                return CanExecuteMakeSum();
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(ToMyAccountSelcted.ShowInCombobox))
+                    return false;
+                return AmountM.All(char.IsDigit)&&(ToMyAccountSelcted.ShowInCombobox!= AccountSelected.ShowInCombobox);
+            }
+
+            
         }
 
         public string AmountM
@@ -144,6 +164,8 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
 
         public string CardNumberM
         {
@@ -166,6 +188,71 @@ namespace UI.ViewModels
             return CardNumberM.All(char.IsDigit) && CardNumberM.Length == 16;
         }
 
+        #region ToMyToAnotherAccount
+
+        
+
+       
+        public bool ToAccount
+        {
+            get => _toAnotherCard;
+            set
+            {
+                _toAnotherCard = value;
+                ChangeToAccount(_toAnotherCard);
+                _makeTranCommand.RaiseCanExecuteChanged();
+                OnPropertyChanged();
+            }
+        }
+        public Account ToMyAccountSelcted
+        {
+            get { return this._toAccountSelected; }
+            set
+            {
+                this._toAccountSelected = value;
+                _makeTranCommand.RaiseCanExecuteChanged();
+                OnPropertyChanged();
+
+            }
+        }
+
+        public Visibility ToMyCardVisibility
+        {
+            get => _myCard;
+            set
+            {
+
+                _myCard = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility ToAnotherCardVisibility
+        {
+            get => _toAnother;
+            set
+            {
+
+                _toAnother = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void ChangeToAccount(bool toAnotherCard)
+        {
+            if (toAnotherCard)
+            {
+                ToMyCardVisibility = Visibility.Collapsed;
+                ToAnotherCardVisibility = Visibility.Visible;
+            }
+            else
+            {
+
+                ToMyCardVisibility = Visibility.Visible;
+                ToAnotherCardVisibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
         public RelayCommand MakeTranCommand
         {
             get
@@ -174,6 +261,7 @@ namespace UI.ViewModels
                        (_makeTranCommand = new RelayCommand(MakeTransactionImplementation, () => CanExecuteCommand()));
             }
         }
+        
 
         private async void MakeTransactionImplementation()
         {
@@ -181,7 +269,15 @@ namespace UI.ViewModels
             await Task.Run(() =>
             {
                 Task.Delay(1000).Wait();
-                //TODO  Make transaction
+                if (_toAnotherCard)
+                {
+                    //TODO  Make transaction to another card
+                }
+                else
+                {
+                    //TODO  Make transaction to my card 
+                }
+
 
             });
             LoaderManeger.Instance.HideLoader();
@@ -190,13 +286,20 @@ namespace UI.ViewModels
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Transactions);
         }
+        #endregion
+
+        #region TransactionHistory
+
 
         public ObservableCollection<Transaction> TransactionsHistory
         {
             get => _transactionsHistory;
             set => _transactionsHistory = value;
         }
+        #endregion
 
+        #region ScheduledTransaction
+        
         public ObservableCollection<ScheduleTranferDto> ScheduledTran
         {
             get => _scheduledTran;
@@ -272,8 +375,8 @@ namespace UI.ViewModels
 
             }
         }
-
         
+        #endregion
 
 
         public TransactionViewModel()
@@ -281,6 +384,7 @@ namespace UI.ViewModels
             MakeTranVisibility = Visibility.Visible;
             ScheduledTranVisibility = Visibility.Collapsed;
             TranHistoryVisibility = Visibility.Collapsed;
+            ToAnotherCardVisibility = Visibility.Collapsed;
             transactionList = new List<string>();
             transactionList.Add("Make Transaction");
             transactionList.Add("Scheduled Transaction");
