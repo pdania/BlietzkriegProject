@@ -88,7 +88,19 @@ namespace UI.ViewModels
         {
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
-            var responseCode = await RestClient.PutMoney(new MoneyTo(AccountSelected.CardNumber, Int32.Parse(PutSum)));
+            HttpStatusCode responseCode;
+            try
+            {
+                responseCode = await RestClient.PutMoney(new MoneyTo(AccountSelected.CardNumber, Int32.Parse(PutSum)));
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox, "Success");
@@ -99,7 +111,6 @@ namespace UI.ViewModels
                     if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
                         currentUserAccount.Balance += Int32.Parse(PutSum);
                 }
-                NavigationManager.Instance.Navigate(ViewType.Put);
             }
             else
             {
