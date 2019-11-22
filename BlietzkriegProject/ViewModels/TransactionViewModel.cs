@@ -385,6 +385,7 @@ namespace UI.ViewModels
             ScheduledTranVisibility = Visibility.Collapsed;
             TranHistoryVisibility = Visibility.Collapsed;
             ToAnotherCardVisibility = Visibility.Collapsed;
+            ToMyCardVisibility = Visibility.Visible;
             transactionList = new List<string>();
             transactionList.Add("Make Transaction");
             transactionList.Add("Scheduled Transaction");
