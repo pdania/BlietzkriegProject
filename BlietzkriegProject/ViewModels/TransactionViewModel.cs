@@ -139,10 +139,10 @@ namespace UI.ViewModels
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(ToMyAccountSelcted.ShowInCombobox))
+                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(ToMyAccountSelected.ShowInCombobox))
                     return false;
                 return AmountM.All(char.IsDigit) &&
-                       (ToMyAccountSelcted.ShowInCombobox != AccountSelected.ShowInCombobox);
+                       (ToMyAccountSelected.ShowInCombobox != AccountSelected.ShowInCombobox);
             }
         }
 
@@ -193,7 +193,7 @@ namespace UI.ViewModels
             }
         }
 
-        public Account ToMyAccountSelcted
+        public Account ToMyAccountSelected
         {
             get { return this._toAccountSelected; }
             set
@@ -236,6 +236,7 @@ namespace UI.ViewModels
                 ToMyCardVisibility = Visibility.Visible;
                 ToAnotherCardVisibility = Visibility.Collapsed;
             }
+            _makeTranCommand.RaiseCanExecuteChanged();
         }
 
         #endregion
@@ -289,7 +290,7 @@ namespace UI.ViewModels
                 try
                 {
                     result = await RestClient.TransferMoney(new TranferInput(AccountSelected.CardNumber,
-                        ToMyAccountSelcted.CardNumber,
+                        ToMyAccountSelected.CardNumber,
                         Int32.Parse(AmountM)));
                 }
                 catch (System.Net.Http.HttpRequestException)
@@ -305,8 +306,8 @@ namespace UI.ViewModels
                 {
                     var errorDialog =
                         new MessageDialog(
-                            "Transaction is successful to your card " + ToMyAccountSelcted.CardNumber + " type " +
-                            ToMyAccountSelcted.Type, "Success");
+                            "Transaction is successful to your card " + ToMyAccountSelected.CardNumber + " type " +
+                            ToMyAccountSelected.Type, "Success");
                     errorDialog.Commands.Add(new UICommand("Ok", null));
                     await errorDialog.ShowAsync();
                 }
