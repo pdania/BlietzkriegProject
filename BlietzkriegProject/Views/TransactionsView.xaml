@@ -27,7 +27,7 @@
                 <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Background="DarkSlateGray" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding TransactionList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="White"/>
             </SplitView.Pane>
             <SplitView.Content >
-                <Grid >
+                <Grid Margin="20,0,0,0">
                     
                     <Grid Visibility="{Binding MakeTranVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <Grid.ColumnDefinitions>
@@ -47,7 +47,7 @@
                             
                             <TextBox Header= "Amount" Margin="0,10,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding AmountM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,24,0,0">
                                 <Button Content="Make" Width="100" Command="{Binding MakeTranCommand}"/>
                             </StackPanel>
                         </StackPanel>

@@ -102,7 +102,6 @@ namespace UI.ViewModels
             {
                 if (value == _selectedItem) return;
                 _selectedItem = value;
-
                 ChangeWindow(transactionList.IndexOf(_selectedItem));
                 OnPropertyChanged();
             }
@@ -115,7 +114,11 @@ namespace UI.ViewModels
         public List<Account> AccountType
         {
             get => _accountType;
-            set => _accountType = value;
+            set
+            {
+                _accountType = value;
+                OnPropertyChanged();
+            }
         }
 
         public Account AccountSelected
@@ -133,13 +136,13 @@ namespace UI.ViewModels
         {
             if (_toAnotherCard)
             {
-                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox))
+                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(CardNumberM) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox))
                     return false;
                 return CanExecuteMakeSum();
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(ToMyAccountSelected.ShowInCombobox))
+                if (string.IsNullOrWhiteSpace(AmountM) || AccountSelected == null || ToMyAccountSelected == null || string.IsNullOrWhiteSpace(ToMyAccountSelected.ShowInCombobox))
                     return false;
                 return AmountM.All(char.IsDigit) &&
                        (ToMyAccountSelected.ShowInCombobox != AccountSelected.ShowInCombobox);
@@ -228,14 +231,17 @@ namespace UI.ViewModels
         {
             if (toAnotherCard)
             {
+                CardNumberM = null;
                 ToMyCardVisibility = Visibility.Collapsed;
                 ToAnotherCardVisibility = Visibility.Visible;
             }
             else
             {
+                ToMyAccountSelected = null;
                 ToMyCardVisibility = Visibility.Visible;
                 ToAnotherCardVisibility = Visibility.Collapsed;
             }
+
             _makeTranCommand.RaiseCanExecuteChanged();
         }
 
@@ -282,6 +288,7 @@ namespace UI.ViewModels
                             "Success");
                     errorDialog.Commands.Add(new UICommand("Ok", null));
                     await errorDialog.ShowAsync();
+                    SyncBalance();
                 }
                 else flag = true;
             }
@@ -310,22 +317,40 @@ namespace UI.ViewModels
                             ToMyAccountSelected.Type, "Success");
                     errorDialog.Commands.Add(new UICommand("Ok", null));
                     await errorDialog.ShowAsync();
+                    SyncBalance(true);
                 }
                 else flag = true;
             }
 
-            LoaderManeger.Instance.HideLoader();
             if (flag)
             {
                 var dialog = new MessageDialog("Transaction failed", "Failure");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
             }
+
+            AccountSelected = null;
+            AmountM = null;
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
+            CardNumberM = null;
+            LoaderManeger.Instance.HideLoader();
         }
 
         #endregion
 
         #region TransactionHistory
+
+        private void SyncBalance(bool isMine = false)
+        {
+            foreach (var currentUserAccount in StationManager.CurrentUser.Accounts)
+            {
+                if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
+                    currentUserAccount.Balance -= Int32.Parse(AmountM);
+                if (isMine)
+                    if (currentUserAccount.CardNumber.Equals(ToMyAccountSelected.CardNumber))
+                        currentUserAccount.Balance += Int32.Parse(AmountM);
+            }
+        }
 
         public ObservableCollection<Transaction> TransactionsHistory
         {

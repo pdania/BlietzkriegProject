@@ -127,14 +127,17 @@ namespace UI.ViewModels
                     if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
                         currentUserAccount.Balance -= Int32.Parse(WithdrawSum);
                 }
+                AccountType = StationManager.CurrentUser.Accounts.ToList();
+                AccountSelected = null;
+                WithdrawSum = null;
             }
             else
-            {
-                LoaderManeger.Instance.HideLoader();
+            { 
                 errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
             }
+            LoaderManeger.Instance.HideLoader();
         }
     }
 }

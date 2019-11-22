@@ -126,10 +126,9 @@ namespace UI.ViewModels
             else
                 flag = false;
 
-            LoaderManeger.Instance.HideLoader();
             if (flag)
             {
-                var dialog = new MessageDialog("CardNumber and PIN correct. Login successfull. For user: "+StationManager.CurrentUser.Login,
+                var dialog = new MessageDialog("CardNumber and PIN correct. Login successfull. User: "+StationManager.CurrentUser.Login,
                     "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
@@ -140,7 +139,10 @@ namespace UI.ViewModels
                 var errorDialog = new MessageDialog("Login failed", "Failure");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
+                CardNumber = null;
+                Password = null;
             }
+            LoaderManeger.Instance.HideLoader();
         }
     }
 }

@@ -44,7 +44,11 @@ namespace UI.ViewModels
         public List<Account> AccountType
         {
             get => _accountType;
-            set => _accountType = value;
+            set
+            {
+                _accountType = value;
+                OnPropertyChanged();
+            }
         }
 
         public Account AccountSelected
@@ -103,7 +107,7 @@ namespace UI.ViewModels
             }
             if (responseCode == HttpStatusCode.OK)
             {
-                var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox, "Success");
+                var dialog = new MessageDialog("Operation is successful for account "+AccountSelected.CardNumber+", type "+AccountSelected.Type, "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
                 foreach (var currentUserAccount in StationManager.CurrentUser.Accounts)
@@ -111,14 +115,17 @@ namespace UI.ViewModels
                     if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
                         currentUserAccount.Balance += Int32.Parse(PutSum);
                 }
+                AccountType = StationManager.CurrentUser.Accounts.ToList();
+                AccountSelected = null;
+                PutSum = null;
             }
             else
             {
-                LoaderManeger.Instance.HideLoader();
                 errorDialog = new MessageDialog("Error occured while trying to put money", "Failed");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
             }
+            LoaderManeger.Instance.HideLoader();
         }
     }
 }
