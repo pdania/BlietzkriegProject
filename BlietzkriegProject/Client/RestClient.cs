@@ -75,5 +75,11 @@ namespace UI.Client
                 "api/withdraw", withdraw);
             return response.StatusCode;
         }
+        internal static async Task<HttpStatusCode> TransferMoney(TranferInput transfer)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/transfer", transfer);
+            return response.StatusCode;
+        }
     }
 }

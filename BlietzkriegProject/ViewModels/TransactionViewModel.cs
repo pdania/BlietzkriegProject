@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -18,6 +19,7 @@ namespace UI.ViewModels
     public class TransactionViewModel : BaseViewModel
     {
         private bool _toAnotherCard;
+
 //        private List<string> _transction;
         private List<string> transactionList;
 
@@ -60,7 +62,6 @@ namespace UI.ViewModels
             get => _scheduled;
             set
             {
-
                 _scheduled = value;
                 OnPropertyChanged();
             }
@@ -72,7 +73,6 @@ namespace UI.ViewModels
             get => _make;
             set
             {
-
                 _make = value;
                 OnPropertyChanged();
             }
@@ -83,7 +83,6 @@ namespace UI.ViewModels
             get => _history;
             set
             {
-
                 _history = value;
                 OnPropertyChanged();
             }
@@ -106,8 +105,6 @@ namespace UI.ViewModels
 
                 ChangeWindow(transactionList.IndexOf(_selectedItem));
                 OnPropertyChanged();
-
-
             }
         }
 
@@ -115,9 +112,6 @@ namespace UI.ViewModels
 
         #region MakeTransaction
 
-        
-
-        
         public List<Account> AccountType
         {
             get => _accountType;
@@ -132,7 +126,6 @@ namespace UI.ViewModels
                 this._selectedItems = value;
                 _makeTranCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
-
             }
         }
 
@@ -148,10 +141,9 @@ namespace UI.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(AmountM) || string.IsNullOrWhiteSpace(ToMyAccountSelcted.ShowInCombobox))
                     return false;
-                return AmountM.All(char.IsDigit)&&(ToMyAccountSelcted.ShowInCombobox!= AccountSelected.ShowInCombobox);
+                return AmountM.All(char.IsDigit) &&
+                       (ToMyAccountSelcted.ShowInCombobox != AccountSelected.ShowInCombobox);
             }
-
-            
         }
 
         public string AmountM
@@ -164,7 +156,6 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
-
 
 
         public string CardNumberM
@@ -190,9 +181,6 @@ namespace UI.ViewModels
 
         #region ToMyToAnotherAccount
 
-        
-
-       
         public bool ToAccount
         {
             get => _toAnotherCard;
@@ -204,6 +192,7 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public Account ToMyAccountSelcted
         {
             get { return this._toAccountSelected; }
@@ -212,7 +201,6 @@ namespace UI.ViewModels
                 this._toAccountSelected = value;
                 _makeTranCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
-
             }
         }
 
@@ -221,7 +209,6 @@ namespace UI.ViewModels
             get => _myCard;
             set
             {
-
                 _myCard = value;
                 OnPropertyChanged();
             }
@@ -232,7 +219,6 @@ namespace UI.ViewModels
             get => _toAnother;
             set
             {
-
                 _toAnother = value;
                 OnPropertyChanged();
             }
@@ -247,12 +233,13 @@ namespace UI.ViewModels
             }
             else
             {
-
                 ToMyCardVisibility = Visibility.Visible;
                 ToAnotherCardVisibility = Visibility.Collapsed;
             }
         }
+
         #endregion
+
         public RelayCommand MakeTranCommand
         {
             get
@@ -261,56 +248,107 @@ namespace UI.ViewModels
                        (_makeTranCommand = new RelayCommand(MakeTransactionImplementation, () => CanExecuteCommand()));
             }
         }
-        
+
 
         private async void MakeTransactionImplementation()
         {
+            bool flag = false;
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
+            HttpStatusCode result;
+            if (_toAnotherCard)
             {
-                Task.Delay(1000).Wait();
-                if (_toAnotherCard)
+                try
                 {
-                    //TODO  Make transaction to another card
+                    result = await RestClient.TransferMoney(new TranferInput(AccountSelected.CardNumber,
+                        CardNumberM,
+                        Int32.Parse(AmountM)));
                 }
-                else
+                catch (System.Net.Http.HttpRequestException)
                 {
-                    //TODO  Make transaction to my card 
+                    var internetError = new MessageDialog("Missing internet connection", "Failure");
+                    internetError.Commands.Add(new UICommand("Ok", null));
+                    await internetError.ShowAsync();
+                    LoaderManeger.Instance.HideLoader();
+                    return;
                 }
 
+                //TODO Message Dialog with To account user name
+                if (result == HttpStatusCode.OK)
+                {
+                    var errorDialog =
+                        new MessageDialog(
+                            "Transaction is successful to " + CardNumberM + " with user //TODO user name and email",
+                            "Success");
+                    errorDialog.Commands.Add(new UICommand("Ok", null));
+                    await errorDialog.ShowAsync();
+                }
+                else flag = true;
+            }
+            else
+            {
+                try
+                {
+                    result = await RestClient.TransferMoney(new TranferInput(AccountSelected.CardNumber,
+                        ToMyAccountSelcted.CardNumber,
+                        Int32.Parse(AmountM)));
+                }
+                catch (System.Net.Http.HttpRequestException)
+                {
+                    var internetError = new MessageDialog("Missing internet connection", "Failure");
+                    internetError.Commands.Add(new UICommand("Ok", null));
+                    await internetError.ShowAsync();
+                    LoaderManeger.Instance.HideLoader();
+                    return;
+                }
 
-            });
+                if (result == HttpStatusCode.OK)
+                {
+                    var errorDialog =
+                        new MessageDialog(
+                            "Transaction is successful to your card " + ToMyAccountSelcted.CardNumber + " type " +
+                            ToMyAccountSelcted.Type, "Success");
+                    errorDialog.Commands.Add(new UICommand("Ok", null));
+                    await errorDialog.ShowAsync();
+                }
+                else flag = true;
+            }
+
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO Make transaction", "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Transactions);
+            if (flag)
+            {
+                var dialog = new MessageDialog("Transaction failed", "Failure");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+            }
         }
+
         #endregion
 
         #region TransactionHistory
-
 
         public ObservableCollection<Transaction> TransactionsHistory
         {
             get => _transactionsHistory;
             set => _transactionsHistory = value;
         }
+
         #endregion
 
         #region ScheduledTransaction
-        
+
         public ObservableCollection<ScheduleTranferDto> ScheduledTran
         {
             get => _scheduledTran;
             set => _scheduledTran = value;
         }
+
         public RelayCommand AddCommand
         {
             get
             {
                 return _addCommand ??
-                       (_addCommand = new RelayCommand(()=>NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction)));
+                       (_addCommand = new RelayCommand(() =>
+                           NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction)));
             }
         }
 
@@ -319,7 +357,9 @@ namespace UI.ViewModels
             get
             {
                 return _editCommand ??
-                       (_editCommand = new RelayCommand(()=> NavigationManager.Instance.Navigate(ViewType.EditScheduledTran), () => CanExecute()));
+                       (_editCommand =
+                           new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.EditScheduledTran),
+                               () => CanExecute()));
             }
         }
 
@@ -327,6 +367,7 @@ namespace UI.ViewModels
         {
             return _selectedTran != null;
         }
+
         public RelayCommand RemoveCommand
         {
             get
@@ -338,7 +379,11 @@ namespace UI.ViewModels
 
         public RelayCommand CancelCommand
         {
-            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard))); }
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand =
+                           new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard)));
+            }
         }
 
         private async void RemoveScheduledTranImplementation()
@@ -348,7 +393,6 @@ namespace UI.ViewModels
             {
                 Task.Delay(1000).Wait();
                 //TODO  Remove scheduled transaction
-
             });
             LoaderManeger.Instance.HideLoader();
             var dialog = new MessageDialog("Operation is successful //TODO remove transaction", "Success");
@@ -364,18 +408,16 @@ namespace UI.ViewModels
             {
                 if (value == _selectedTran) return;
                 this._selectedTran = value;
-                
+
                 _selectedTran = value;
                 StationManager.CurrentScheduledTransfer = _selectedTran;
                 EditCommand.RaiseCanExecuteChanged();
                 RemoveCommand.RaiseCanExecuteChanged();
-               
-                OnPropertyChanged();
-               
 
+                OnPropertyChanged();
             }
         }
-        
+
         #endregion
 
 
@@ -405,7 +447,20 @@ namespace UI.ViewModels
         private async void GetTransactions()
         {
             TransactionsHistory = new ObservableCollection<Transaction>();
-            var allTransactions = await RestClient.GetTransfers();
+            ObservableCollection<Transaction> allTransactions;
+            try
+            {
+                allTransactions = await RestClient.GetTransfers();
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             foreach (var specificTransaction in allTransactions)
             {
                 if (specificTransaction.To == null)
@@ -414,19 +469,20 @@ namespace UI.ViewModels
                     TransactionsHistory.Add(specificTransaction);
                     continue;
                 }
+
                 if (specificTransaction.From == null)
                 {
                     specificTransaction.From = "ATM";
                     TransactionsHistory.Add(specificTransaction);
                     continue;
                 }
+
                 TransactionsHistory.Add(specificTransaction);
             }
-
         }
+
         private void ChangeWindow(int n)
         {
-            
             MakeTranVisibility = Visibility.Collapsed;
             ScheduledTranVisibility = Visibility.Collapsed;
             TranHistoryVisibility = Visibility.Collapsed;
@@ -450,8 +506,6 @@ namespace UI.ViewModels
                     TranHistoryVisibility = Visibility.Collapsed;
                     break;
             }
-
-
         }
     }
 }

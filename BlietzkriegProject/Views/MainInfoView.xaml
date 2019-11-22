@@ -22,7 +22,7 @@
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="150"
                     DisplayMode="Inline">
             <SplitView.Pane >
-                <ListBox SelectionMode="Single" Background="DarkSlateGray" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Single" Background="DarkSlateGray" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

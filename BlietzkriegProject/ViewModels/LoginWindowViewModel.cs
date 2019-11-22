@@ -107,7 +107,20 @@ namespace UI.ViewModels
         {
             LoaderManeger.Instance.ShowLoader();
             bool flag = true;
-            var user = await RestClient.AuthPost(new Card(CardNumber, Password));
+            User user;
+            try
+            {
+                user = await RestClient.AuthPost(new Card(CardNumber, Password));
+            }
+            catch(System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             if (user != null)
                 StationManager.CurrentUser = user;
             else
@@ -127,7 +140,6 @@ namespace UI.ViewModels
                 var errorDialog = new MessageDialog("Login failed", "Failure");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
-                NavigationManager.Instance.Navigate(ViewType.Login);
             }
         }
     }

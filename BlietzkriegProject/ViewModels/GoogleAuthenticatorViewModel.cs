@@ -67,7 +67,7 @@ namespace UI.ViewModels
                 //TODO Send Get request to DB 
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Authenticator code successful for user: "+StationManager.CurrentUser.Login, "Success");
+            var dialog = new MessageDialog("Google authenticator code is correct. Welcome!", "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Dashboard);

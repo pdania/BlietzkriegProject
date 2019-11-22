@@ -101,8 +101,21 @@ namespace UI.ViewModels
         {
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
-            var responseCode =
-                await RestClient.WithdrawMoney(new MoneyFrom(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+            HttpStatusCode responseCode;
+            try
+            {
+                responseCode =
+                    await RestClient.WithdrawMoney(new MoneyFrom(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox,
@@ -114,8 +127,6 @@ namespace UI.ViewModels
                     if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
                         currentUserAccount.Balance -= Int32.Parse(WithdrawSum);
                 }
-
-                NavigationManager.Instance.Navigate(ViewType.Withdraw);
             }
             else
             {
@@ -123,7 +134,6 @@ namespace UI.ViewModels
                 errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
-                NavigationManager.Instance.Navigate(ViewType.Withdraw);
             }
         }
     }

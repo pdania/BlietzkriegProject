@@ -87,14 +87,25 @@ namespace UI.ViewModels
             User = "Byblik";
             AccountType = StationManager.CurrentUser.Accounts.ToList();
             SelectedItem = StationManager.CurrentUser.Accounts.First();
-            GetTransactions();
             LoaderManeger.Instance.HideLoader();
         }
 
         private async void GetTransactions()
         {
             Transactions = new ObservableCollection<Transaction>();
-            var allTransactions = await RestClient.GetTransfers();
+            ObservableCollection<Transaction> allTransactions;
+            try
+            {
+                allTransactions = await RestClient.GetTransfers();
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
             var specificTransactions = (from transaction in allTransactions
                 where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
                 select transaction);
