@@ -6,9 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interop="using:Windows.UI.Xaml.Interop"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="700" >
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-    <Grid Background="Blue" >
+    <Grid>
        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,12 +22,12 @@
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="180"
-                    DisplayMode="Inline" Background="Aqua" >
+                    DisplayMode="Inline" >
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding TransactionList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Background="DarkSlateGray" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" ItemsSource="{Binding TransactionList , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="White"/>
             </SplitView.Pane>
             <SplitView.Content >
-                <Grid>
+                <Grid Margin="20,0,0,0">
                     
                     <Grid Visibility="{Binding MakeTranVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <Grid.ColumnDefinitions>
@@ -37,11 +37,17 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Make transaction" HorizontalAlignment="Left" VerticalAlignment ="Center" Style="{StaticResource TitleTextBlockStyle}"/>
                             </StackPanel>
-                            <ComboBox Header="" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,24,0,0" Width="400"  Height="50" SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
-                            <TextBox Header= "Card number" Margin="0,24,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumberM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox Header= "Amount" Margin="0,24,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding AmountM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            
+                            <!-- SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" -->
+                            <ComboBox Header="From" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,24,0,0" Width="400" SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
+                            
+                            <ToggleSwitch OnContent="To another card" OffContent="To my account" IsOn="{Binding ToAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Visibility="{Binding ToAnotherCardVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumberM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox Header="" PlaceholderText="Account type" Visibility="{Binding ToMyCardVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" Width="400" SelectedValue="{Binding ToMyAccountSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
+                            
+                            <TextBox Header= "Amount" Margin="0,10,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding AmountM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,24,0,0">
                                 <Button Content="Make" Width="100" Command="{Binding MakeTranCommand}"/>
                             </StackPanel>
                         </StackPanel>
@@ -61,15 +67,15 @@
                         <Grid Grid.Row ="0">
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="150"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="From" Grid.Column="0" />
                             <TextBlock Text="To" Grid.Column="1" />
                             <TextBlock Text="Amount" Grid.Column="2" />
-                            <TextBlock Text="Period" Grid.Column="3" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Period" Grid.Column="3"/>
 
                         </Grid>
 
@@ -86,9 +92,9 @@
                                     <Grid >
 
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="100"/>
                                             <ColumnDefinition Width="150"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding CardNumberFrom}" Grid.Column="0" />

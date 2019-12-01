@@ -14,6 +14,6 @@ namespace UI.Templates
         public int? Limit { get; set; }
         public DateTime? ExpiryDate { get; set; }
 
-        public string ShowInCombobox => CardNumber+"\t"+Type+"\t"+Balance;
+        public string ShowInCombobox => CardNumber+"   "+Type+"   "+Balance;
     }
 }

@@ -107,16 +107,28 @@ namespace UI.ViewModels
         {
             LoaderManeger.Instance.ShowLoader();
             bool flag = true;
-            var user = await RestClient.AuthPost(new Card(CardNumber, Password));
+            User user;
+            try
+            {
+                user = await RestClient.AuthPost(new Card(CardNumber, Password));
+            }
+            catch(System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             if (user != null)
                 StationManager.CurrentUser = user;
             else
                 flag = false;
 
-            LoaderManeger.Instance.HideLoader();
             if (flag)
             {
-                var dialog = new MessageDialog("CardNumber successful for user " + StationManager.CurrentUser.Login+"  token:"+ StationManager.CurrentUser.Token,
+                var dialog = new MessageDialog("CardNumber and PIN correct. Login successfull. User: "+StationManager.CurrentUser.Login,
                     "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
@@ -127,8 +139,10 @@ namespace UI.ViewModels
                 var errorDialog = new MessageDialog("Login failed", "Failure");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
-                NavigationManager.Instance.Navigate(ViewType.Login);
+                CardNumber = null;
+                Password = null;
             }
+            LoaderManeger.Instance.HideLoader();
         }
     }
 }

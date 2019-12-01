@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UI.Client;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -25,9 +26,7 @@ namespace UI.ViewModels
         private RelayCommand _naviCommand;
         private RelayCommand _backCommand;
         private ObservableCollection<Transaction> _transactions;
-        private string _limit;
-        private string _balance;
-        private string _percent;
+        private string _accountInfo;
 
         #endregion
 
@@ -44,7 +43,15 @@ namespace UI.ViewModels
 
         #endregion
 
-
+        public string User
+        {
+            get =>userName;
+            set =>userName=value;
+        }
+        public string AccountInfo {
+            get =>_accountInfo;
+            set => _accountInfo = value;
+        }
         public Account SelectedItem
         {
             get { return _selectedItem; }
@@ -56,66 +63,74 @@ namespace UI.ViewModels
                 AccountChangeImplementation();
             }
         }
-
-        public string Limit
-        {
-            get { return _limit;}
-            set { _limit = value; }
-        }
-        public string Balance
-        {
-            get { return _balance; }
-            set { _balance = value; }
-        }
-        public string Percent
-        {
-            get { return _percent; }
-            set { _percent = value; }
-        }
         public List<Account> AccountType
         {
             get => _accountType;
             set => _accountType = value;
         }
+
         public ObservableCollection<Transaction> Transactions
         {
             get => _transactions;
-            set => _transactions = value;
+            set
+            {
+                _transactions = value; 
+                OnPropertyChanged();
+            }
         }
+
         public MainInfoViewModel()
 
         {
+            LoaderManeger.Instance.ShowLoader();
+            AccountInfo = "Danylo make info about account";
+            User = "Byblik";
             AccountType = StationManager.CurrentUser.Accounts.ToList();
-            Transactions = new ObservableCollection<Transaction>();
-            Transactions.Add(item: new Transaction("From","To",2,DateTime.Now));
-            Transactions.Add(item: new Transaction("Andr546444444444444444444444444444444444444444444444444y", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-            Transactions.Add(item: new Transaction("Andry", "Dania", 2, DateTime.Now));
-
-            //TODO add to this strings value
-            _limit = "Limit: ";
-            _balance = "Balance: ";
-            _percent = "Percent: ";
+            SelectedItem = StationManager.CurrentUser.Accounts.First();
+            LoaderManeger.Instance.HideLoader();
         }
-        private async void AccountChangeImplementation()
+
+        private async void GetTransactions()
+        {
+            Transactions = new ObservableCollection<Transaction>();
+            ObservableCollection<Transaction> allTransactions;
+            try
+            {
+                allTransactions = await RestClient.GetTransfers();
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+            var specificTransactions = (from transaction in allTransactions
+                where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
+                select transaction);
+            foreach (var specificTransaction in specificTransactions)
+            {
+                if (specificTransaction.To == null)
+                {
+                    specificTransaction.To = "ATM";
+                    Transactions.Add(specificTransaction);
+                    continue;
+                }
+                if (specificTransaction.From == null)
+                {
+                    specificTransaction.From = "ATM";
+                    Transactions.Add(specificTransaction);
+                    continue;
+                }
+                Transactions.Add(specificTransaction);
+            }
+        }
+        private void AccountChangeImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
-            {
-                Task.Delay(1000).Wait();
-                //TODO Put money on account
-            });
+            GetTransactions();
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO sum put on account="+ _selectedItem, "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.MainInfo);
         }
 
 

@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -16,12 +16,12 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Add new scheduled transaction" HorizontalAlignment="Left" VerticalAlignment ="Center" Style="{StaticResource TitleTextBlockStyle}"/>
             </StackPanel>
-            <ComboBox Header="" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" Width="400"  Height="40" SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
-            <TextBox Header= "Card number" Margin="0,5,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Header= "Period(days)" Margin="0,5,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding Period, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Header= "Amount" Margin="0,5,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox Header="" PlaceholderText="Account type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,20,0,0" Width="400"  Height="40" SelectedValue="{Binding AccountSelected , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccountType , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ShowInCombobox"/>
+            <TextBox Header= "Card number" Margin="0,20,0,0" MaxLength="16" Width="400" HorizontalAlignment="Left" Text = "{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Header= "Period(days)" Margin="0,20,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding Period, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Header= "Amount" Margin="0,20,0,0" MaxLength="6" Width="400" HorizontalAlignment="Left" Text = "{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30">
                 <Button Content="Add" Width="100" Command="{Binding AddEditCommand}"/>
                 <Button Content="Cancel" Width="100" Margin="150,0,0,0"  HorizontalAlignment="Right" Command="{Binding CancelCommand}"/>
             </StackPanel>

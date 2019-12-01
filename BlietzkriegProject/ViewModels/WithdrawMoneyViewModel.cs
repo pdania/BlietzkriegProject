@@ -15,6 +15,7 @@ namespace UI.ViewModels
     internal class WithdrawMoneyViewModel : BaseViewModel
     {
         #region Fields
+
         private string _sum;
         private Account _selectedItems;
         private string _information;
@@ -23,10 +24,12 @@ namespace UI.ViewModels
         #endregion
 
         #region Commands
+
         private RelayCommand _withdrawCommand;
         private RelayCommand _cancelCommand;
 
         #endregion
+
         public string WithdrawSum
         {
             get { return _sum; }
@@ -52,21 +55,27 @@ namespace UI.ViewModels
                 this._selectedItems = value;
                 _withdrawCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
-
             }
         }
 
 
-
         #region Commands
+
         public RelayCommand WithdrawCommand
         {
-            get { return _withdrawCommand ?? (_withdrawCommand = new RelayCommand(WithdrawMoneyImplementation, () => CanExecuteCommand())); }
+            get
+            {
+                return _withdrawCommand ?? (_withdrawCommand =
+                           new RelayCommand(WithdrawMoneyImplementation, () => CanExecuteCommand()));
+            }
         }
 
         public RelayCommand CancelCommand
         {
-            get { return _cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard)); }
+            get
+            {
+                return _cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Dashboard));
+            }
         }
 
         #endregion
@@ -75,23 +84,42 @@ namespace UI.ViewModels
         {
             AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
+
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(WithdrawSum) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
+            if (string.IsNullOrWhiteSpace(WithdrawSum) ||
+                string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
             return CanExecuteCardNumber();
         }
+
         private bool CanExecuteCardNumber()
         {
             return WithdrawSum.All(char.IsDigit);
         }
+
         private async void WithdrawMoneyImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
             MessageDialog errorDialog;
-            var responseCode = await RestClient.WithdrawMoney(new Money(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+            HttpStatusCode responseCode;
+            try
+            {
+                responseCode =
+                    await RestClient.WithdrawMoney(new MoneyFrom(AccountSelected.CardNumber, Int32.Parse(WithdrawSum)));
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             if (responseCode == HttpStatusCode.OK)
             {
-                var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox, "Success");
+                var dialog = new MessageDialog("Operation is successful for " + AccountSelected.ShowInCombobox,
+                    "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
                 foreach (var currentUserAccount in StationManager.CurrentUser.Accounts)
@@ -99,15 +127,17 @@ namespace UI.ViewModels
                     if (currentUserAccount.CardNumber.Equals(AccountSelected.CardNumber))
                         currentUserAccount.Balance -= Int32.Parse(WithdrawSum);
                 }
-                NavigationManager.Instance.Navigate(ViewType.Withdraw);
+                AccountType = StationManager.CurrentUser.Accounts.ToList();
+                AccountSelected = null;
+                WithdrawSum = null;
+            }
+            else
+            { 
+                errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
+                errorDialog.Commands.Add(new UICommand("Ok", null));
+                await errorDialog.ShowAsync();
             }
             LoaderManeger.Instance.HideLoader();
-            errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
-            errorDialog.Commands.Add(new UICommand("Ok", null));
-            await errorDialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Withdraw);
         }
-    }
-
     }
 }

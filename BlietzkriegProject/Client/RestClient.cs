@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -33,7 +35,7 @@ namespace UI.Client
                 httpClient.DefaultRequestHeaders.Add("token", user.Token);
                 return user;
             }
-            return user;
+            return null;
         }
 
         internal static async Task<ObservableCollection<Transaction>> GetTransfers()
@@ -61,16 +63,22 @@ namespace UI.Client
             return accounts;
         }
 
-        internal static async Task<HttpStatusCode> PutMoney(Money put)
+        internal static async Task<HttpStatusCode> PutMoney(MoneyTo put)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
                 "api/put", put);
             return response.StatusCode;
         }
-        internal static async Task<HttpStatusCode> WithdrawMoney(Money withdraw)
+        internal static async Task<HttpStatusCode> WithdrawMoney(MoneyFrom withdraw)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
                 "api/withdraw", withdraw);
+            return response.StatusCode;
+        }
+        internal static async Task<HttpStatusCode> TransferMoney(TranferInput transfer)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/transfer", transfer);
             return response.StatusCode;
         }
     }

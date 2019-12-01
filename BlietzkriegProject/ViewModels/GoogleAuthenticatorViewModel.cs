@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
 using UI.Tools.Navigation;
@@ -66,7 +67,7 @@ namespace UI.ViewModels
                 //TODO Send Get request to DB 
             });
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Authenticator code successful for user //TODO name of gotten user", "Success");
+            var dialog = new MessageDialog("Google authenticator code is correct. Welcome!", "Success");
             dialog.Commands.Add(new UICommand("Ok", null));
             await dialog.ShowAsync();
             NavigationManager.Instance.Navigate(ViewType.Dashboard);

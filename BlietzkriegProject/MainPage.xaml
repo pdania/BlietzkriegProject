@@ -8,9 +8,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <ContentControl Name="_contentControl" IsEnabled="{Binding IsControlEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch"></ContentControl>
+        <!-- <Grid.ColumnDefinitions> -->
+        <!--     <ColumnDefinition Width="Auto"></ColumnDefinition> -->
+        <!-- </Grid.ColumnDefinitions> -->
+        <ContentControl Name="_contentControl" IsEnabled="{Binding IsControlEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"></ContentControl>
     </Grid>
 </Page>
