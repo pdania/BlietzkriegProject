@@ -9,6 +9,11 @@ namespace UI.Templates
             public string Token { get; set; }
 
             public ICollection<Account> Accounts;
+
+            public override string ToString()
+            {
+                return "Email: " + Email + " Login: " + Login;
+            }
     }
 
 }
