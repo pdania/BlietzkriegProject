@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -16,8 +17,11 @@ namespace UI.ViewModels
     {
         #region Fields
         private List<Account> _accountType;
-        private string userName;
+        private User userName;
         private Account _selectedItem;
+        private ObservableCollection<Transaction> _transactions;
+        private Account _accountInfo;
+        private static readonly MainInfoViewModel instance = new MainInfoViewModel();
 
 
         #endregion
@@ -25,8 +29,6 @@ namespace UI.ViewModels
         #region Commands
         private RelayCommand _naviCommand;
         private RelayCommand _backCommand;
-        private ObservableCollection<Transaction> _transactions;
-        private string _accountInfo;
 
         #endregion
 
@@ -43,15 +45,21 @@ namespace UI.ViewModels
 
         #endregion
 
-        public string User
+        public User User
         {
             get =>userName;
             set =>userName=value;
         }
-        public string AccountInfo {
+        public Account AccountInfo
+        {
             get =>_accountInfo;
-            set => _accountInfo = value;
+            set
+            {
+                _accountInfo = value; 
+                OnPropertyChanged();
+            }
         }
+
         public Account SelectedItem
         {
             get { return _selectedItem; }
@@ -79,12 +87,17 @@ namespace UI.ViewModels
             }
         }
 
-        public MainInfoViewModel()
+        private MainInfoViewModel()
+        {}
+        public static MainInfoViewModel GetInstance()
+        {
+            return instance;
+        }
 
+        public void SetDefault()
         {
             LoaderManeger.Instance.ShowLoader();
-            AccountInfo = "Danylo make info about account";
-            User = "Byblik";
+            User = StationManager.CurrentUser;
             AccountType = StationManager.CurrentUser.Accounts.ToList();
             SelectedItem = StationManager.CurrentUser.Accounts.First();
             LoaderManeger.Instance.HideLoader();
@@ -106,30 +119,37 @@ namespace UI.ViewModels
                 LoaderManeger.Instance.HideLoader();
                 return;
             }
-            var specificTransactions = (from transaction in allTransactions
-                where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
-                select transaction);
-            foreach (var specificTransaction in specificTransactions)
+
+            if (allTransactions != null)
             {
-                if (specificTransaction.To == null)
+                var specificTransactions = (from transaction in allTransactions
+                    where transaction.From == SelectedItem.CardNumber || transaction.To == SelectedItem.CardNumber
+                    select transaction);
+                foreach (var specificTransaction in specificTransactions)
                 {
-                    specificTransaction.To = "ATM";
+                    if (specificTransaction.To == null)
+                    {
+                        specificTransaction.To = "ATM";
+                        Transactions.Add(specificTransaction);
+                        continue;
+                    }
+
+                    if (specificTransaction.From == null)
+                    {
+                        specificTransaction.From = "ATM";
+                        Transactions.Add(specificTransaction);
+                        continue;
+                    }
+
                     Transactions.Add(specificTransaction);
-                    continue;
                 }
-                if (specificTransaction.From == null)
-                {
-                    specificTransaction.From = "ATM";
-                    Transactions.Add(specificTransaction);
-                    continue;
-                }
-                Transactions.Add(specificTransaction);
             }
         }
         private void AccountChangeImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
             GetTransactions();
+            AccountInfo = SelectedItem;
             LoaderManeger.Instance.HideLoader();
         }
 

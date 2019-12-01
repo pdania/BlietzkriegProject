@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UI.Client;
 using UI.Templates;
 using UI.Tools;
 using UI.Tools.Managers;
@@ -9,7 +10,7 @@ using UI.Tools.Navigation;
 
 namespace UI.ViewModels
 {
-    internal class GoogleAuthenticatorViewModel:BaseViewModel
+    internal class GoogleAuthenticatorViewModel : BaseViewModel
     {
         private string _authenticatorCode;
 
@@ -18,7 +19,7 @@ namespace UI.ViewModels
             get => _authenticatorCode;
             set
             {
-                _authenticatorCode = value.Replace(" ", "Space") ;
+                _authenticatorCode = value;
                 OnPropertyChanged();
                 _signInCommand.RaiseCanExecuteChanged();
             }
@@ -33,7 +34,8 @@ namespace UI.ViewModels
         {
             get
             {
-                return _signInCommand = new RelayCommand(SignInImplementation, () => CanExecuteCommand()); ;
+                return _signInCommand = new RelayCommand(SignInImplementation, () => CanExecuteCommand());
+                ;
             }
         }
 
@@ -42,11 +44,7 @@ namespace UI.ViewModels
             get
             {
                 return _backCommand ?? (_backCommand = new RelayCommand(
-                           () =>
-                           {
-                               NavigationManager.Instance.Navigate(ViewType.Login);
-
-                           }));
+                           () =>  NavigationManager.Instance.Navigate(ViewType.Login)));
             }
         }
 
@@ -54,23 +52,30 @@ namespace UI.ViewModels
 
         private bool CanExecuteCommand()
         {
-             if (string.IsNullOrWhiteSpace(AuthenticatorCode)) return false;
-             return AuthenticatorCode.All(char.IsDigit) && AuthenticatorCode.Length == 6;
+            if (string.IsNullOrWhiteSpace(AuthenticatorCode)) return false;
+            return AuthenticatorCode.All(char.IsDigit) && AuthenticatorCode.Length == 6;
         }
 
         private async void SignInImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
-            {
-                Task.Delay(1000).Wait();
-                //TODO Send Get request to DB 
-            });
+            var res = await RestClient.GoogleAuth(new Auth(AuthenticatorCode));
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Google authenticator code is correct. Welcome!", "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Dashboard);
+            if (res)
+            {
+                var dialog = new MessageDialog("Google authenticator code is correct. Welcome!", "Success");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                AuthenticatorCode = null;
+                NavigationManager.Instance.Navigate(ViewType.Dashboard);
+            }
+            else
+            {
+                var dialog = new MessageDialog("Google authenticator code is incorrect. Try again", "Failure");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                AuthenticatorCode = null;
+            }
         }
     }
 }

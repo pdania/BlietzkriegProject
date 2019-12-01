@@ -15,5 +15,9 @@ namespace UI.Templates
         public DateTime? ExpiryDate { get; set; }
 
         public string ShowInCombobox => CardNumber+"   "+Type+"   "+Balance;
+        public override string ToString()
+        {
+            return "Balance: "+Balance+" | Status: "+Status+" | Percent: "+Percent+" | Limit: "+Limit+" | Expiry date: "+ExpiryDate;
+        }
     }
 }

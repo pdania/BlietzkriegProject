@@ -22,6 +22,7 @@ namespace UI.ViewModels
         private string _sum;
         private Account _selectedItems;
         private string _information;
+        private static readonly PutMoneyViewModel instance = new PutMoneyViewModel();
 
         #endregion
 
@@ -75,13 +76,21 @@ namespace UI.ViewModels
 
         #endregion
 
-        public PutMoneyViewModel()
+        private PutMoneyViewModel()
+        {}
+
+        public static PutMoneyViewModel GetInstance()
+        {
+            return instance;
+        }
+
+        public void SetDefault()
         {
             AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(PutSum) || string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
+            if (string.IsNullOrWhiteSpace(PutSum) || AccountSelected == null) return false;
             return CanExecutePutSum();
         }
         private bool CanExecutePutSum()

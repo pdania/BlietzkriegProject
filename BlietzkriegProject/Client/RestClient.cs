@@ -24,7 +24,7 @@ namespace UI.Client
 
         internal static async Task<User> AuthPost(Card card)
         {
-            User user = null;
+            User user;
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
                 "api/auth", card);
 
@@ -32,6 +32,7 @@ namespace UI.Client
             if (response.IsSuccessStatusCode)
             {
                 user = await response.Content.ReadAsAsync<User>();
+                httpClient.DefaultRequestHeaders.Remove("token");
                 httpClient.DefaultRequestHeaders.Add("token", user.Token);
                 return user;
             }
@@ -46,6 +47,18 @@ namespace UI.Client
             if (response.IsSuccessStatusCode)
             {
                 transfers = await response.Content.ReadAsAsync<ObservableCollection<Transaction>>();
+            }
+            return transfers;
+        }
+
+        internal static async Task<ObservableCollection<ScheduleTranferDto>> GetScheduledTransfers()
+        {
+            ObservableCollection<ScheduleTranferDto> transfers = null;
+            HttpResponseMessage response = await httpClient.GetAsync("api/schedule");
+
+            if (response.IsSuccessStatusCode)
+            {
+                transfers = await response.Content.ReadAsAsync<ObservableCollection<ScheduleTranferDto>>();
             }
             return transfers;
         }
@@ -69,6 +82,17 @@ namespace UI.Client
                 "api/put", put);
             return response.StatusCode;
         }
+        internal static async Task<Receiver> GetAccountInfo(string cardNumber)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync(
+                "api/account/"+ cardNumber);
+            Receiver username = null;
+            if (response.IsSuccessStatusCode)
+            {
+                username = await response.Content.ReadAsAsync<Receiver>();
+            }
+            return username;
+        }
         internal static async Task<HttpStatusCode> WithdrawMoney(MoneyFrom withdraw)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
@@ -80,6 +104,19 @@ namespace UI.Client
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(
                 "api/transfer", transfer);
             return response.StatusCode;
+        }
+
+        internal static async Task<bool> GoogleAuth(Auth code)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/googleauth", code);
+
+            // return URI of the created resource.
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace UI.Templates
 
             public override string ToString()
             {
-                return "Email: " + Email + " Login: " + Login;
+                return "Email: " + Email + " | Login: " + Login;
             }
     }
 

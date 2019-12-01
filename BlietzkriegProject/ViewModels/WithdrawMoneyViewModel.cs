@@ -20,6 +20,7 @@ namespace UI.ViewModels
         private Account _selectedItems;
         private string _information;
         private List<Account> _accountType;
+        private static readonly WithdrawMoneyViewModel instance = new WithdrawMoneyViewModel();
 
         #endregion
 
@@ -44,7 +45,11 @@ namespace UI.ViewModels
         public List<Account> AccountType
         {
             get => _accountType;
-            set => _accountType = value;
+            set
+            {
+                _accountType = value;
+                OnPropertyChanged();
+            }
         }
 
         public Account AccountSelected
@@ -80,15 +85,22 @@ namespace UI.ViewModels
 
         #endregion
 
-        public WithdrawMoneyViewModel()
+        private WithdrawMoneyViewModel()
+        {}
+
+        public static WithdrawMoneyViewModel GetInstance()
+        {
+            return instance;
+        }
+
+        public void SetDefault()
         {
             AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
-
         private bool CanExecuteCommand()
         {
             if (string.IsNullOrWhiteSpace(WithdrawSum) ||
-                string.IsNullOrWhiteSpace(AccountSelected.ShowInCombobox)) return false;
+                AccountSelected == null) return false;
             return CanExecuteCardNumber();
         }
 
@@ -136,6 +148,9 @@ namespace UI.ViewModels
                 errorDialog = new MessageDialog("Error occured while trying to withdraw money", "Failed");
                 errorDialog.Commands.Add(new UICommand("Ok", null));
                 await errorDialog.ShowAsync();
+                AccountType = StationManager.CurrentUser.Accounts.ToList();
+                AccountSelected = null;
+                WithdrawSum = null;
             }
             LoaderManeger.Instance.HideLoader();
         }

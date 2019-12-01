@@ -16,7 +16,7 @@ namespace UI.Views
         public MainInfoView()
         {
             this.InitializeComponent();
-            DataContext = new MainInfoViewModel();
+            DataContext = MainInfoViewModel.GetInstance();
         }
 
        

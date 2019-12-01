@@ -14,7 +14,7 @@ namespace UI.Views
         public PutMoneyView()
         {
             this.InitializeComponent();
-            DataContext = new PutMoneyViewModel();
+            DataContext = PutMoneyViewModel.GetInstance();
         }
        
     }

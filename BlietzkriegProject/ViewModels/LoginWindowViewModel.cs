@@ -17,7 +17,6 @@ namespace UI.ViewModels
 
         private string _cardNumber;
         private string _password;
-        private string _information;
 
         #endregion
 
@@ -39,12 +38,6 @@ namespace UI.ViewModels
                 _googleCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
             }
-        }
-
-        public string Information
-        {
-            get { return _information; }
-            set => _information = value;
         }
 
         public string Password
@@ -96,13 +89,6 @@ namespace UI.ViewModels
         {
             return Password.All(char.IsDigit) && Password.Length == 4;
         }
-
-        public LoginWindowViewModel()
-        {
-            Information = "Input card number and PIN";
-            Tries = 3;
-        }
-
         private async void SignInImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
@@ -128,10 +114,12 @@ namespace UI.ViewModels
 
             if (flag)
             {
-                var dialog = new MessageDialog("CardNumber and PIN correct. Login successfull. User: "+StationManager.CurrentUser.Login,
+                var dialog = new MessageDialog("CardNumber and PIN correct. Login successful. User: "+StationManager.CurrentUser.Login,
                     "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
+                CardNumber = null;
+                Password = null;
                 NavigationManager.Instance.Navigate(ViewType.Google);
             }
             else

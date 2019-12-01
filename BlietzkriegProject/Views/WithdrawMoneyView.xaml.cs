@@ -14,7 +14,7 @@ namespace UI.Views
         public WithdrawMoneyView()
         {
             this.InitializeComponent();
-            DataContext = new WithdrawMoneyViewModel();
+            DataContext = WithdrawMoneyViewModel.GetInstance();
         }
     }
 }
