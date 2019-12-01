@@ -106,6 +106,19 @@ namespace UI.Client
             return response.StatusCode;
         }
 
+        internal static async Task<HttpStatusCode> PostScheduled(ScheduleInput transfer)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/schedule", transfer);
+            return response.StatusCode;
+        }
+
+        internal static async Task<HttpStatusCode> DeleteScheduled(int transferId)
+        {
+            HttpResponseMessage response = await httpClient.DeleteAsync(
+                "api/schedule/"+ transferId);
+            return response.StatusCode;
+        }
         internal static async Task<bool> GoogleAuth(Auth code)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(

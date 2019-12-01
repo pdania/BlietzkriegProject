@@ -14,7 +14,7 @@ namespace UI.Views
         public TransactionsView()
         {
             this.InitializeComponent();
-            DataContext = new TransactionViewModel();
+            DataContext = TransactionViewModel.GetInstance();
         }
     }
 }

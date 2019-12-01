@@ -18,7 +18,7 @@
             <Button RelativePanel.AlignLeftWithPanel="True"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"  Command="{Binding CancelCommand}" />
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding User}" RelativePanel.AlignHorizontalCenterWithPanel="True"></TextBlock>
-            <Button Content="Add transaction" Visibility="{Binding ScheduledTranVisibility}" RelativePanel.AlignRightWithPanel="True" Command="{Binding AddCommand}"></Button>
+            <Button Content="Add scheduled transaction" Visibility="{Binding ScheduledTranVisibility}" RelativePanel.AlignRightWithPanel="True" Command="{Binding AddCommand}"></Button>
         </RelativePanel>
 
         <SplitView  IsPaneOpen="True" Grid.Row="1" OpenPaneLength="180"

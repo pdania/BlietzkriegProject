@@ -49,6 +49,7 @@ namespace UI.ViewModels
         private Visibility _myCard;
         private Visibility _toAnother;
         private Account _toAccountSelected;
+        private readonly static TransactionViewModel instance = new TransactionViewModel();
 
         //        public RelayCommand CancelCommand
         //        {
@@ -385,7 +386,11 @@ namespace UI.ViewModels
         public ObservableCollection<Transaction> TransactionsHistory
         {
             get => _transactionsHistory;
-            set => _transactionsHistory = value;
+            set
+            {
+                _transactionsHistory = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion
@@ -395,7 +400,11 @@ namespace UI.ViewModels
         public ObservableCollection<ScheduleTranferDto> ScheduledTran
         {
             get => _scheduledTran;
-            set => _scheduledTran = value;
+            set
+            {
+                _scheduledTran = value;
+                OnPropertyChanged();
+            }
         }
 
         public RelayCommand AddCommand
@@ -449,16 +458,33 @@ namespace UI.ViewModels
         private async void RemoveScheduledTranImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            await Task.Run(() =>
+            HttpStatusCode responseCode;
+            try
             {
-                Task.Delay(1000).Wait();
-                //TODO  Remove scheduled transaction
-            });
+                responseCode = await RestClient.DeleteScheduled(SelectedTransaction.TranferId);
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
             LoaderManeger.Instance.HideLoader();
-            var dialog = new MessageDialog("Operation is successful //TODO remove transaction", "Success");
-            dialog.Commands.Add(new UICommand("Ok", null));
-            await dialog.ShowAsync();
-            NavigationManager.Instance.Navigate(ViewType.Transactions);
+            if (responseCode == HttpStatusCode.OK)
+            {
+                var dialog = new MessageDialog("Scheduled transaction successfuly removed", "Success");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+                Update();
+            }
+            else
+            {
+                var dialog = new MessageDialog("Error occured while trying to add scheduled transaction", "Failure");
+                dialog.Commands.Add(new UICommand("Ok", null));
+                await dialog.ShowAsync();
+            }
         }
 
         public ScheduleTranferDto SelectedTransaction
@@ -481,7 +507,7 @@ namespace UI.ViewModels
         #endregion
 
 
-        public TransactionViewModel()
+        private TransactionViewModel()
         {
             LoaderManeger.Instance.ShowLoader();
             MakeTranVisibility = Visibility.Visible;
@@ -500,6 +526,17 @@ namespace UI.ViewModels
             LoaderManeger.Instance.HideLoader();
         }
 
+        public static TransactionViewModel GetInstance()
+        {
+            return instance;
+        }
+
+        public void Update()
+        {
+            LoaderManeger.Instance.ShowLoader();
+            GetScheduledTransactions();
+            LoaderManeger.Instance.HideLoader();
+        } 
         private async void GetScheduledTransactions()
         {
             ScheduledTran = new ObservableCollection<ScheduleTranferDto>();
