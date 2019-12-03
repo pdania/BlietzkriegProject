@@ -28,7 +28,7 @@ namespace UI.Views
         public ScheduledTransactionView()
         {
             this.InitializeComponent();
-            DataContext = new ScheduledTransactionViewModel();
+            DataContext = ScheduledTransactionViewModel.GetInstance();
         }
         
     }

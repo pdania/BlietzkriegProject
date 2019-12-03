@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using UI.Client;
@@ -44,7 +45,7 @@ namespace UI.ViewModels
             get
             {
                 return _backCommand ?? (_backCommand = new RelayCommand(
-                           () =>  NavigationManager.Instance.Navigate(ViewType.Login)));
+                           () => NavigationManager.Instance.Navigate(ViewType.Login)));
             }
         }
 
@@ -59,9 +60,22 @@ namespace UI.ViewModels
         private async void SignInImplementation()
         {
             LoaderManeger.Instance.ShowLoader();
-            var res = await RestClient.GoogleAuth(new Auth(AuthenticatorCode));
+            bool responseCode;
+            try
+            {
+                responseCode = await RestClient.GoogleAuth(new Auth(AuthenticatorCode));
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                var internetError = new MessageDialog("Missing internet connection", "Failure");
+                internetError.Commands.Add(new UICommand("Ok", null));
+                await internetError.ShowAsync();
+                LoaderManeger.Instance.HideLoader();
+                return;
+            }
+
             LoaderManeger.Instance.HideLoader();
-            if (res)
+            if (responseCode)
             {
                 var dialog = new MessageDialog("Google authenticator code is correct. Welcome!", "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));

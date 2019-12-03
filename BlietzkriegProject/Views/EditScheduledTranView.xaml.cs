@@ -27,7 +27,7 @@ namespace UI.Views
         public EditScheduledTranView()
         {
             this.InitializeComponent();
-            DataContext = new EditScheduledTranViewModel();
+            DataContext = EditScheduledTranViewModel.GetInstance();
         }
     }
 }

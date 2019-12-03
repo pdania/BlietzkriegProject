@@ -294,7 +294,7 @@ namespace UI.ViewModels
                 {
                     var chooseDialog =
                         new MessageDialog(
-                            "Are you sure you want to send "+AmountM+"hrn to " + CardNumberM + " with user "+receiver+"?",
+                            "Are you sure you want to send "+AmountM+"UAH to " + CardNumberM + " with user "+receiver+"?",
                             "Accept operation");
                     chooseDialog.Commands.Add(new UICommand("Yes", null));
                     chooseDialog.Commands.Add(new UICommand("Cancel", null));
@@ -346,6 +346,7 @@ namespace UI.ViewModels
                     errorDialog.Commands.Add(new UICommand("Ok", null));
                     await errorDialog.ShowAsync();
                     SyncBalance(true);
+                    ClearFields();
                 }
                 else flag = true;
             }
@@ -413,7 +414,10 @@ namespace UI.ViewModels
             {
                 return _addCommand ??
                        (_addCommand = new RelayCommand(() =>
-                           NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction)));
+                       {
+                           ScheduledTransactionViewModel.GetInstance().Update();
+                           NavigationManager.Instance.Navigate(ViewType.ScheduledTransaction);
+                       }));
             }
         }
 
@@ -423,7 +427,11 @@ namespace UI.ViewModels
             {
                 return _editCommand ??
                        (_editCommand =
-                           new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.EditScheduledTran),
+                           new RelayCommand(() =>
+                               {
+                                   EditScheduledTranViewModel.GetInstance().Update();
+                                   NavigationManager.Instance.Navigate(ViewType.EditScheduledTran);
+                               },
                                () => CanExecute()));
             }
         }
@@ -534,6 +542,7 @@ namespace UI.ViewModels
         public void Update()
         {
             LoaderManeger.Instance.ShowLoader();
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
             GetScheduledTransactions();
             LoaderManeger.Instance.HideLoader();
         } 

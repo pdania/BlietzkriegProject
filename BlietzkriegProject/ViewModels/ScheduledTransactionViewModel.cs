@@ -23,6 +23,7 @@ namespace UI.ViewModels
 
         private RelayCommand _addEditCommand;
         private RelayCommand _cancelCommand;
+        private readonly static ScheduledTransactionViewModel instance = new ScheduledTransactionViewModel();
 
 
         public List<Account> AccountType
@@ -109,11 +110,24 @@ namespace UI.ViewModels
             }); }
         }
 
-        public ScheduledTransactionViewModel()
+        private ScheduledTransactionViewModel()
         {
             AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
-        
+
+        public void Update()
+        {
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
+            AccountSelected = null;
+            CardNumber = null;
+            Amount = null;
+            Period = null;
+        }
+
+        public static ScheduledTransactionViewModel GetInstance()
+        {
+            return instance;
+        }
 
         private async void AddEditTransactionImplementation()
         {
@@ -149,14 +163,6 @@ namespace UI.ViewModels
                 await dialog.ShowAsync();
                 Update();
             }
-        }
-
-        private void Update()
-        {
-            AccountSelected = null;
-            CardNumber = null;
-            Amount = null;
-            Period = null;
         }
     }
 }

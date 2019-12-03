@@ -131,5 +131,11 @@ namespace UI.Client
             }
             return false;
         }
+        internal static async Task<HttpStatusCode> EditScheduled(ScheduleTranferDto transfer)
+        {
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
+                "api/schedule", transfer);
+            return response.StatusCode;
+        }
     }
 }

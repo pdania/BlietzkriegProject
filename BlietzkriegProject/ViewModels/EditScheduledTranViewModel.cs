@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using UI.Tools.Navigation;
 
 namespace UI.ViewModels
 {
-    public class EditScheduledTranViewModel:BaseViewModel
+    public class EditScheduledTranViewModel : BaseViewModel
     {
         private List<Account> _accountType;
         private Account _selectedItems;
@@ -23,6 +24,7 @@ namespace UI.ViewModels
 
         private RelayCommand _addEditCommand;
         private RelayCommand _cancelCommand;
+        private readonly static EditScheduledTranViewModel instance = new EditScheduledTranViewModel();
 
 
         public List<Account> AccountType
@@ -39,22 +41,23 @@ namespace UI.ViewModels
                 this._selectedItems = value;
                 _addEditCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged();
-
             }
         }
 
 
-
         private bool CanExecuteCommand()
         {
-            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) || string.IsNullOrWhiteSpace(Amount) || AccountSelected == null) return false;
+            if (string.IsNullOrWhiteSpace(Period) || string.IsNullOrWhiteSpace(CardNumber) ||
+                string.IsNullOrWhiteSpace(Amount) || AccountSelected == null) return false;
             return CanExecuteMakeSum();
         }
+
         private bool CanExecuteMakeSum()
         {
             //            return true;
             return CanExecuteCardNumber() && Amount.All(char.IsDigit) && Period.All(char.IsDigit);
         }
+
         private bool CanExecuteCardNumber()
         {
             return CardNumber.All(char.IsDigit) && CardNumber.Length == 16;
@@ -70,6 +73,7 @@ namespace UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public string Period
         {
             get { return _period; }
@@ -101,31 +105,36 @@ namespace UI.ViewModels
                        (_addEditCommand = new RelayCommand(EditTransactionImplementation, () => CanExecuteCommand()));
             }
         }
+
         public RelayCommand CancelCommand
         {
-            get { return _cancelCommand = new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Transactions)); }
+            get
+            {
+                return _cancelCommand =
+                    new RelayCommand(() => NavigationManager.Instance.Navigate(ViewType.Transactions));
+            }
         }
 
-        public EditScheduledTranViewModel()
+        private EditScheduledTranViewModel()
         {
-            ScheduleTranferDto tranferDto = StationManager.CurrentScheduledTransfer;
-            _cardNumber = tranferDto.CardNumberTo;
-            _sum = tranferDto.Amount.ToString();
-            _period = tranferDto.Period.ToString();
-            _selectedItems = (from acc in StationManager.CurrentUser.Accounts
-                where acc.CardNumber == tranferDto.CardNumberFrom
-                select acc).First();
-            AccountType = StationManager.CurrentUser.Accounts.ToList();
+            Update();
         }
 
+        public static EditScheduledTranViewModel GetInstance()
+        {
+            return instance;
+        }
 
         private async void EditTransactionImplementation()
         {
             HttpStatusCode responseCode;
+            Debug.WriteLine(DateTime.Now);
             try
             {
-                responseCode = await RestClient.PostScheduled(
-                    new ScheduleInput(AccountSelected.CardNumber, CardNumber, Int32.Parse(Amount), Int32.Parse(Period)));
+                responseCode = await RestClient.EditScheduled(
+                    new ScheduleTranferDto(StationManager.CurrentScheduledTransfer.TranferId,
+                        AccountSelected.CardNumber, CardNumber, Int32.Parse(Amount), DateTime.Now,
+                        Int32.Parse(Period)));
             }
             catch (System.Net.Http.HttpRequestException)
             {
@@ -135,13 +144,13 @@ namespace UI.ViewModels
                 LoaderManeger.Instance.HideLoader();
                 return;
             }
+
             LoaderManeger.Instance.HideLoader();
             if (responseCode == HttpStatusCode.OK)
             {
                 var dialog = new MessageDialog("Scheduled transaction successfuly added", "Success");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
-                Update();
                 TransactionViewModel.GetInstance().Update();
                 NavigationManager.Instance.Navigate(ViewType.Transactions);
             }
@@ -150,15 +159,18 @@ namespace UI.ViewModels
                 var dialog = new MessageDialog("Error occured while trying to add scheduled transaction", "Failure");
                 dialog.Commands.Add(new UICommand("Ok", null));
                 await dialog.ShowAsync();
-                Update();
             }
         }
-        private void Update()
+
+        public void Update()
         {
-            AccountSelected = null;
-            CardNumber = null;
-            Amount = null;
-            Period = null;
+            _cardNumber = StationManager.CurrentScheduledTransfer.CardNumberTo;
+            _sum = StationManager.CurrentScheduledTransfer.Amount.ToString();
+            _period = StationManager.CurrentScheduledTransfer.Period.ToString();
+            _selectedItems = (from acc in StationManager.CurrentUser.Accounts
+                where acc.CardNumber == StationManager.CurrentScheduledTransfer.CardNumberFrom
+                select acc).First();
+            AccountType = StationManager.CurrentUser.Accounts.ToList();
         }
     }
 }
